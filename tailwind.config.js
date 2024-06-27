@@ -13,7 +13,13 @@ module.exports = {
         error: "#EF4444",
       },
       fontFamily: {
-        body: ["Quicksand"],
+        global: ["Quicksand"],
+      },
+      fontWeight: {
+        light: "300",
+        regular: "400",
+        medium: "500",
+        semibold: "600",
       },
     },
   },

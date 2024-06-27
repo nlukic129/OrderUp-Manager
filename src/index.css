@@ -3,3 +3,19 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.input-style {
+  @apply mt-2 pt-4 pb-4 pl-6 rounded-lg bg-transparent border border-supporting text-supporting  focus:border-primary focus:outline-none transition ease-in-out delay-100 w-full;
+}
+
+.error-input {
+  @apply mt-2 pt-4 pb-4 pl-6 rounded-lg bg-transparent border border-error text-supporting focus:border-primary focus:outline-none transition ease-in-out delay-100 w-full;
+}
+
+.button-style {
+  @apply mt-16 pt-4 pb-4 pl-6 rounded-lg hover:outline-none transition ease-in-out delay-100 w-full bg-primary font-global font-regular text-typography cursor-pointer;
+}
+
+.button-disabled-style {
+  @apply mt-16 pt-4 pb-4 pl-6 rounded-lg hover:outline-none transition ease-in-out delay-100 w-full bg-supporting font-global font-regular text-typography cursor-not-allowed;
+}
