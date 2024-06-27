@@ -1,18 +1,23 @@
-import { useState } from "react";
+import { useState, useContext, useEffect } from "react";
 
+import { StorageContext } from "data/StorageContext";
 import Input from "components/Input";
 import loginCover from "../assets/images/login-cover.png";
 import Button from "components/Button";
 import { checkEmail, checkPassword } from "utils/validators";
 
 const LoginPage = () => {
+  const [email, setEmail] = useState("p.peric@orderup.com");
+  const [password, setPassword] = useState("PeraPericOU2024!");
   const [isEmailValid, setIsEmailValid] = useState(false);
   const [isPasswordValid, setIsPasswordValid] = useState(false);
+  const { login } = useContext(StorageContext);
 
   const emailInputConfig = {
     label: "Email Address",
     placeholder: "Enter your email address",
     type: "email",
+    onChangeInput: setEmail,
     required: true,
     checkValidity: checkEmail,
     onChangeValidity: setIsEmailValid,
@@ -21,13 +26,18 @@ const LoginPage = () => {
     label: "Password",
     placeholder: "Enter your password",
     type: "password",
+    onChangeInput: setPassword,
     required: true,
     checkValidity: checkPassword,
     onChangeValidity: setIsPasswordValid,
   };
 
-  const loginHandler = () => {
-    console.log("Login clicked");
+  const loginHandler = async () => {
+    try {
+      await login(email, password);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
@@ -43,9 +53,10 @@ const LoginPage = () => {
             <div className="flex flex-col mt-10">
               <Input {...passwordInputConfig} />
             </div>
-            <Button click={loginHandler} disabled={!isEmailValid || !isPasswordValid}>
+            {/* <Button click={loginHandler} disabled={!isEmailValid || !isPasswordValid}>
               Login
-            </Button>
+            </Button> */}
+            <Button click={loginHandler}>Login</Button>
           </form>
         </div>
       </div>

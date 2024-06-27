@@ -7,15 +7,15 @@ interface IInputProps {
   label: string;
   placeholder: string;
   type: string;
+  onChangeInput: (value: string) => void;
   required?: boolean;
   checkValidity?: (value: string) => boolean;
   onChangeValidity?: (value: boolean) => void;
 }
 
-const Input = ({ label, placeholder, type, required = false, checkValidity, onChangeValidity }: IInputProps) => {
+const Input = ({ label, placeholder, type, required = false, checkValidity, onChangeValidity, onChangeInput }: IInputProps) => {
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
   const [inputType, setInputType] = useState(type);
-  const [inputValue, setInputValue] = useState("");
   const [isInputValid, setIsInputValid] = useState(required ? false : true);
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -51,7 +51,7 @@ const Input = ({ label, placeholder, type, required = false, checkValidity, onCh
     if (required && checkValidity) {
       setIsInputValid(checkValidity(newValue));
     }
-    setInputValue(newValue);
+    onChangeInput(newValue);
   };
 
   const passwordToggleIcon = type === "password" && (
@@ -76,7 +76,6 @@ const Input = ({ label, placeholder, type, required = false, checkValidity, onCh
           onFocus={handleFocus}
           onChange={handleChange}
           required={required}
-          value={inputValue}
         />
         {passwordToggleIcon}
       </div>

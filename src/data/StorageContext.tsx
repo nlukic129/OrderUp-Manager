@@ -1,10 +1,10 @@
 import { createContext, useState, useEffect } from "react";
-
+import axios from "axios";
 interface IStorageContext {
   isAuthenticated: boolean;
   restaurants: any[];
-  login: (email: string, password: string) => void;
-  logout: () => void;
+  login: (email: string, password: string) => Promise<void>;
+  logout: () => Promise<void>;
 }
 
 interface IStorageProviderProps {
@@ -14,8 +14,8 @@ interface IStorageProviderProps {
 const initialState = {
   isAuthenticated: false,
   restaurants: [],
-  login: (email: string, password: string) => {},
-  logout: () => {},
+  login: async (email: string, password: string) => {},
+  logout: async () => {},
 };
 
 const StorageContext = createContext<IStorageContext>(initialState);
@@ -32,8 +32,21 @@ const StorageProvider = ({ children }: IStorageProviderProps) => {
   }, [isAuthenticated]);
 
   const login = async (email: string, password: string) => {
-    // TODO: : Implement login
-    //* navigate(`/${data[0].name}/tables`, { replace: true });
+    try {
+      const response = await axios.post(
+        "https://orderup-staticdataapi.onrender.com/auth/sign-in",
+        { email, password },
+        {
+          headers: { "Content-Type": "application/json" },
+          withCredentials: true,
+        }
+      );
+
+      console.log(response.data);
+      // navigate(`/${response.data[0].name}/tables`, { replace: true });
+    } catch (error) {
+      console.error("There was an error!", error);
+    }
   };
 
   const logout = async () => {
