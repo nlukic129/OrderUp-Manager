@@ -1,19 +1,34 @@
 import { createContext, useState, useEffect } from "react";
 import axios from "axios";
-interface IStorageContext {
-  isAuthenticated: boolean;
-  restaurants: any[];
-  login: (email: string, password: string) => Promise<void>;
-  logout: () => Promise<void>;
-}
+
+import { apiAddress } from "config";
+import { checkAuth, setAuth } from "utils/auth";
+import { IHospitalityVenue } from "../types/venueType";
+import { removeSelectedVenue } from "utils/hospitalityVenue";
 
 interface IStorageProviderProps {
   children: React.ReactNode;
 }
 
-const initialState = {
+interface IUser {
+  email: string;
+  firstName: string;
+  lastName: string;
+  role: "MANAGER" | "ADMIN";
+}
+
+interface IStorageContext {
+  isAuthenticated: boolean;
+  hospitalityVenues: IHospitalityVenue[];
+  userData: IUser;
+  login: (email: string, password: string) => Promise<void>;
+  logout: () => Promise<void>;
+}
+
+const initialState: IStorageContext = {
   isAuthenticated: false,
-  restaurants: [],
+  hospitalityVenues: [],
+  userData: { email: "", firstName: "", lastName: "", role: "MANAGER" },
   login: async (email: string, password: string) => {},
   logout: async () => {},
 };
@@ -21,39 +36,63 @@ const initialState = {
 const StorageContext = createContext<IStorageContext>(initialState);
 
 const StorageProvider = ({ children }: IStorageProviderProps) => {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [restaurants, setRestaurants] = useState([]);
+  const [isAuthenticated, setIsAuthenticated] = useState(checkAuth());
+  const [userData, setUserData] = useState<IUser>(initialState.userData);
+  const [hospitalityVenues, setHospitalityVenues] = useState([]);
 
   useEffect(() => {
     if (isAuthenticated) {
-      // TODO:Get the restaurants
-      // TODO:Set the restaurants state
+      getVenues();
     }
   }, [isAuthenticated]);
+
+  const setAuthentication = (authentication: boolean) => {
+    setIsAuthenticated(authentication);
+    setAuth(authentication ? "true" : "false");
+  };
 
   const login = async (email: string, password: string) => {
     try {
       const response = await axios.post(
-        "https://orderup-staticdataapi.onrender.com/auth/sign-in",
+        `${apiAddress}/auth/sign-in`,
         { email, password },
         {
           headers: { "Content-Type": "application/json" },
           withCredentials: true,
         }
       );
+      setAuthentication(true);
+      setUserData(response.data);
+    } catch (error) {
+      console.error("There was an error!", error);
+    }
+  };
 
-      console.log(response.data);
-      // navigate(`/${response.data[0].name}/tables`, { replace: true });
+  const getVenues = async () => {
+    try {
+      const response = await axios.get(`${apiAddress}/hospitality-venue/all`, {
+        withCredentials: true,
+      });
+
+      setHospitalityVenues(response.data);
     } catch (error) {
       console.error("There was an error!", error);
     }
   };
 
   const logout = async () => {
-    // TODO: : Implement logout
+    try {
+      await axios.post(`${apiAddress}/auth/sign-out`, {}, { withCredentials: true });
+      setAuthentication(false);
+      setUserData(initialState.userData);
+      setHospitalityVenues([]);
+      removeSelectedVenue();
+    } catch (error) {
+      console.error("There was an error!", error);
+    }
   };
 
-  return <StorageContext.Provider value={{ isAuthenticated, restaurants, login, logout }}>{children}</StorageContext.Provider>;
+  return <StorageContext.Provider value={{ isAuthenticated, hospitalityVenues, userData, login, logout }}>{children}</StorageContext.Provider>;
 };
 
 export { StorageProvider, StorageContext };

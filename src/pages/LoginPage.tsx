@@ -1,4 +1,5 @@
-import { useState, useContext, useEffect } from "react";
+import { useState, useContext } from "react";
+import { useNavigate } from "react-router-dom";
 
 import { StorageContext } from "data/StorageContext";
 import Input from "components/Input";
@@ -12,6 +13,7 @@ const LoginPage = () => {
   const [isEmailValid, setIsEmailValid] = useState(false);
   const [isPasswordValid, setIsPasswordValid] = useState(false);
   const { login } = useContext(StorageContext);
+  const navigate = useNavigate();
 
   const emailInputConfig = {
     label: "Email Address",
@@ -35,6 +37,7 @@ const LoginPage = () => {
   const loginHandler = async () => {
     try {
       await login(email, password);
+      navigate(`/`, { replace: true });
     } catch (error) {
       console.log(error);
     }
