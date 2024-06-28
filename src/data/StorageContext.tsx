@@ -4,7 +4,6 @@ import axios from "axios";
 import { apiAddress } from "config";
 import { checkAuth, setAuth } from "utils/auth";
 import { IHospitalityVenue } from "../types/venueType";
-import { removeSelectedVenue } from "utils/hospitalityVenue";
 
 interface IStorageProviderProps {
   children: React.ReactNode;
@@ -21,16 +20,20 @@ interface IStorageContext {
   isAuthenticated: boolean;
   hospitalityVenues: IHospitalityVenue[];
   userData: IUser;
+  selectedVenue?: IHospitalityVenue;
   login: (email: string, password: string) => Promise<void>;
   logout: () => Promise<void>;
+  setSelectedVenue: (venue: IHospitalityVenue) => void;
 }
 
 const initialState: IStorageContext = {
   isAuthenticated: false,
   hospitalityVenues: [],
   userData: { email: "", firstName: "", lastName: "", role: "MANAGER" },
+  selectedVenue: undefined,
   login: async (email: string, password: string) => {},
   logout: async () => {},
+  setSelectedVenue: (venue: IHospitalityVenue) => {},
 };
 
 const StorageContext = createContext<IStorageContext>(initialState);
@@ -39,6 +42,7 @@ const StorageProvider = ({ children }: IStorageProviderProps) => {
   const [isAuthenticated, setIsAuthenticated] = useState(checkAuth());
   const [userData, setUserData] = useState<IUser>(initialState.userData);
   const [hospitalityVenues, setHospitalityVenues] = useState([]);
+  const [selectedVenue, setSelectedVenue] = useState<IHospitalityVenue>();
 
   useEffect(() => {
     if (isAuthenticated) {
@@ -86,13 +90,16 @@ const StorageProvider = ({ children }: IStorageProviderProps) => {
       setAuthentication(false);
       setUserData(initialState.userData);
       setHospitalityVenues([]);
-      removeSelectedVenue();
     } catch (error) {
       console.error("There was an error!", error);
     }
   };
 
-  return <StorageContext.Provider value={{ isAuthenticated, hospitalityVenues, userData, login, logout }}>{children}</StorageContext.Provider>;
+  return (
+    <StorageContext.Provider value={{ isAuthenticated, hospitalityVenues, userData, selectedVenue, login, logout, setSelectedVenue }}>
+      {children}
+    </StorageContext.Provider>
+  );
 };
 
 export { StorageProvider, StorageContext };

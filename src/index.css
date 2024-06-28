@@ -19,3 +19,7 @@
 .button-disabled-style {
   @apply mt-16 pt-3 pb-3 max-h-16 pl-6 pr-6 rounded-lg hover:outline-none transition ease-in-out delay-100 w-full bg-supporting font-global font-regular text-typography cursor-not-allowed;
 }
+
+.button-logout {
+  @apply pt-2 pb-2 pl-6 pr-6 rounded-lg hover:outline-none transition ease-in-out delay-100 w-full bg-error bg-opacity-60 hover:bg-opacity-100 font-global font-regular text-typography cursor-pointer;
+}

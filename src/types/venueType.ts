@@ -73,7 +73,7 @@ export interface ICategory {
   articles: IArticle[];
 }
 
-enum HospitalityVenueType {
+export enum HospitalityVenueType {
   RESTAURANT = "RESTAURANT",
   BAR = "BAR",
   CAFE = "CAFE",

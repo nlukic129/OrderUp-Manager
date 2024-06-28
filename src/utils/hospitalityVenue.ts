@@ -1,7 +1,11 @@
-export const setSelectedVenue = (id: string) => {
+export const setSelectedVenueLS = (id: string) => {
   localStorage.setItem("selectedVenue", id);
 };
 
-export const removeSelectedVenue = () => {
+export const removeSelectedVenueLS = () => {
   localStorage.removeItem("selectedVenue");
+};
+
+export const getSelectedVenueLS = () => {
+  return localStorage.getItem("selectedVenue");
 };
