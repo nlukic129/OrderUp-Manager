@@ -4,6 +4,7 @@ import axios from "axios";
 import { apiAddress } from "config";
 import { checkAuth, setAuth } from "utils/auth";
 import { IHospitalityVenue } from "../types/venueType";
+import { removeSelectedVenueLS } from "utils/hospitalityVenue";
 
 interface IStorageProviderProps {
   children: React.ReactNode;
@@ -90,6 +91,7 @@ const StorageProvider = ({ children }: IStorageProviderProps) => {
       setAuthentication(false);
       setUserData(initialState.userData);
       setHospitalityVenues([]);
+      removeSelectedVenueLS();
     } catch (error) {
       console.error("There was an error!", error);
     }
