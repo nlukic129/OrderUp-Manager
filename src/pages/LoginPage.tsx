@@ -12,7 +12,9 @@ const LoginPage = () => {
   const [password, setPassword] = useState("PeraPericOU2024!");
   const [isEmailValid, setIsEmailValid] = useState(false);
   const [isPasswordValid, setIsPasswordValid] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const { login } = useContext(StorageContext);
+
   const navigate = useNavigate();
 
   const emailInputConfig = {
@@ -36,7 +38,9 @@ const LoginPage = () => {
 
   const loginHandler = async () => {
     try {
+      setIsLoading(true);
       await login(email, password);
+      setIsLoading(false);
       navigate(`/`, { replace: true });
     } catch (error) {
       console.log(error);
@@ -58,8 +62,11 @@ const LoginPage = () => {
             </div>
             {/* <Button click={loginHandler} disabled={!isEmailValid || !isPasswordValid}>
               Login
-            </Button> */}
-            <Button click={loginHandler}>Login</Button>
+              </Button> */}
+
+            <Button click={loginHandler} isLoading={isLoading}>
+              Login
+            </Button>
           </form>
         </div>
       </div>

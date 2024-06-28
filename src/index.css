@@ -13,9 +13,9 @@
 }
 
 .button-style {
-  @apply mt-16 pt-4 pb-4 pl-6 rounded-lg hover:outline-none transition ease-in-out delay-100 w-full bg-primary font-global font-regular text-typography cursor-pointer;
+  @apply mt-16 pt-3 pb-3 max-h-16 pl-6 pr-6 rounded-lg hover:outline-none transition ease-in-out delay-100 w-full bg-primary font-global font-regular text-typography cursor-pointer;
 }
 
 .button-disabled-style {
-  @apply mt-16 pt-4 pb-4 pl-6 rounded-lg hover:outline-none transition ease-in-out delay-100 w-full bg-supporting font-global font-regular text-typography cursor-not-allowed;
+  @apply mt-16 pt-3 pb-3 max-h-16 pl-6 pr-6 rounded-lg hover:outline-none transition ease-in-out delay-100 w-full bg-supporting font-global font-regular text-typography cursor-not-allowed;
 }
