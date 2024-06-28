@@ -8,8 +8,8 @@ import Button from "components/Button";
 import { checkEmail, checkPassword } from "utils/validators";
 
 const LoginPage = () => {
-  const [email, setEmail] = useState("p.peric@orderup.com");
-  const [password, setPassword] = useState("PeraPericOU2024!");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [isEmailValid, setIsEmailValid] = useState(false);
   const [isPasswordValid, setIsPasswordValid] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -60,11 +60,7 @@ const LoginPage = () => {
             <div className="flex flex-col mt-10">
               <Input {...passwordInputConfig} />
             </div>
-            {/* <Button click={loginHandler} disabled={!isEmailValid || !isPasswordValid}>
-              Login
-              </Button> */}
-
-            <Button click={loginHandler} isLoading={isLoading}>
+            <Button click={loginHandler} isLoading={isLoading} disabled={!isEmailValid || !isPasswordValid}>
               Login
             </Button>
           </form>
