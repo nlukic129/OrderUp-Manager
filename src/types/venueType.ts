@@ -73,12 +73,24 @@ export interface ICategory {
   articles: IArticle[];
 }
 
+enum HospitalityVenueType {
+  RESTAURANT = "RESTAURANT",
+  BAR = "BAR",
+  CAFE = "CAFE",
+  PUB = "PUB",
+  CLUB = "CLUB",
+  HOTEL = "HOTEL",
+  HOSTEL = "HOSTEL",
+  MOTEL = "MOTEL",
+}
+
 export interface IHospitalityVenue {
   id: string;
   name: string;
   city: string;
   displayName: string;
   address: string;
+  type: HospitalityVenueType;
   tables: ITable[];
   users: IUser[];
   categories: ICategory[];
