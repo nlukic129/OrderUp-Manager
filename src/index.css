@@ -25,7 +25,18 @@
 }
 
 .navbar {
-  @apply absolute top-0 left-0 bottom-0 w-72 bg-supporting;
+  @apply absolute top-0 left-0 bottom-0 w-72 bg-supporting z-50;
+}
+
+.add-item {
+  width: 36px;
+  margin-left: 6px;
+  margin-right: 15px;
+}
+
+.elements {
+  max-height: 85%;
+  margin-bottom: 10px;
 }
 
 .button {
@@ -38,5 +49,6 @@
   width: 30px;
   height: 30px;
   border-radius: 50%;
+  z-index: 51;
   background: transparent;
 }

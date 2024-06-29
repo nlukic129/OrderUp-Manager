@@ -3,7 +3,7 @@ import { Outlet, useNavigate } from "react-router-dom";
 
 import { StorageContext } from "data/StorageContext";
 import { getSelectedVenueLS, setSelectedVenueLS } from "utils/hospitalityVenue";
-import NavigationSection from "../components/NavigationSection";
+import NavigationSection from "../components/Navigation/NavigationSection";
 import burgerMenu from "../assets/images/burger-menu.png";
 import HeaderSection from "components/HeaderSection";
 
@@ -34,7 +34,7 @@ const HomePage = () => {
         <NavigationSection />
         <div className="w-full md:w-9/12 xl:w-10/12 h-screen pr-5 pl-5 md:pr-10 md:pl-10">
           <HeaderSection />
-          <div className=" h-screen">
+          <div className="h-screen pt-4">
             <Outlet />
           </div>
         </div>

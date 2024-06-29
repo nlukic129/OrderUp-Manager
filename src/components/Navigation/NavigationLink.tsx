@@ -1,14 +1,14 @@
 import { NavLink } from "react-router-dom";
 
-import activeMarker from "../assets/images/active-marker.png";
-import tablesActiveIcon from "../assets/images/tables-active.png";
-import tablesIcon from "../assets/images/tables.png";
-import waitersIcon from "../assets/images/waiters.png";
-import waitersActiveIcon from "../assets/images/waiters-active.png";
-import messagesIcon from "../assets/images/messages.png";
-import messagesActiveIcon from "../assets/images/messages-active.png";
-import menuIcon from "../assets/images/menu.png";
-import menuActiveIcon from "../assets/images/menu-active.png";
+import activeMarker from "../../assets/images/active-marker.png";
+import tablesActiveIcon from "../../assets/images/tables-active.png";
+import tablesIcon from "../../assets/images/tables.png";
+import waitersIcon from "../../assets/images/waiters.png";
+import waitersActiveIcon from "../../assets/images/waiters-active.png";
+import messagesIcon from "../../assets/images/messages.png";
+import messagesActiveIcon from "../../assets/images/messages-active.png";
+import menuIcon from "../../assets/images/menu.png";
+import menuActiveIcon from "../../assets/images/menu-active.png";
 
 interface INavigationLinkProps {
   tableType: tableType;

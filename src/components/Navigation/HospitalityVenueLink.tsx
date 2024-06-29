@@ -1,10 +1,10 @@
 import { useContext, useEffect, useState } from "react";
-import activeMarker from "../assets/images/active-marker.png";
 
-import cafeActive from "../assets/images/cafe-active.png";
-import cafe from "../assets/images/cafe.png";
-import restaurant from "../assets/images/restaurant.png";
-import restaurantActive from "../assets/images/restaurant-active.png";
+import activeMarker from "../../assets/images/active-marker.png";
+import cafeActive from "../../assets/images/cafe-active.png";
+import cafe from "../../assets/images/cafe.png";
+import restaurant from "../../assets/images/restaurant.png";
+import restaurantActive from "../../assets/images/restaurant-active.png";
 import { StorageContext } from "data/StorageContext";
 import { HospitalityVenueType, IHospitalityVenue } from "types/venueType";
 import { setSelectedVenueLS } from "utils/hospitalityVenue";

@@ -11,6 +11,7 @@ module.exports = {
         supporting: "#9794AA",
         success: "#10B981",
         error: "#EF4444",
+        gold: "#FAC952",
       },
       fontFamily: {
         global: ["Quicksand"],

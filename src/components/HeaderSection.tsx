@@ -4,8 +4,8 @@ import { motion, useCycle } from "framer-motion";
 
 import burgerMenu from "../assets/images/burger-menu.png";
 import { StorageContext } from "data/StorageContext";
-import { MenuToggle } from "./MenuToggle";
-import { NavigationToggle } from "./NavigationToggle";
+import { MenuToggle } from "./Navigation/MenuToggle";
+import { NavigationToggle } from "./Navigation/NavigationToggle";
 
 const sidebar = {
   open: (height = 1000) => ({
@@ -17,7 +17,7 @@ const sidebar = {
     },
   }),
   closed: {
-    clipPath: "circle(20px at 35px 39px)",
+    clipPath: "circle(21px at 35px 39px)",
     transition: {
       delay: 0,
       type: "spring",
