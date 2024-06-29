@@ -17,7 +17,7 @@ const sidebar = {
     },
   }),
   closed: {
-    clipPath: "circle(20px at 30px 30px)",
+    clipPath: "circle(20px at 35px 39px)",
     transition: {
       delay: 0,
       type: "spring",
@@ -42,11 +42,13 @@ const HeaderSection = () => {
     <>
       <div className="h-20 flex justify-between items-center">
         <div className="block  md:hidden">
-          <motion.nav initial={false} animate={isOpen ? "open" : "closed"} custom="100%">
-            <motion.div className="navbar" variants={sidebar} />
-            <NavigationToggle isOpen={isOpen} />
-            <MenuToggle toggle={() => toggleOpen()} />
-          </motion.nav>
+          <div className="w-9 h-16">
+            <motion.nav initial={false} animate={isOpen ? "open" : "closed"} custom="100%">
+              <motion.div className="navbar" variants={sidebar} />
+              <NavigationToggle isOpen={isOpen} />
+              <MenuToggle toggle={() => toggleOpen()} />
+            </motion.nav>
+          </div>
         </div>
         <div className="text-xl md:text-2xl font-regular">{selectedVenue?.displayName}</div>
         <div>

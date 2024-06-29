@@ -33,37 +33,10 @@
   border: none;
   cursor: pointer;
   position: absolute;
-  top: 16px;
-  left: 19px;
+  top: 25px;
+  left: 23.5px;
   width: 30px;
   height: 30px;
   border-radius: 50%;
   background: transparent;
-}
-
-.icon-placeholder {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  flex: 40px 0;
-  margin-right: 20px;
-}
-
-.text-placeholder {
-  border-radius: 5px;
-  width: 200px;
-  height: 20px;
-  flex: 1;
-}
-
-.icon {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  font-size: 25px;
-}
-
-.text {
-  color: #fef6e4;
 }
