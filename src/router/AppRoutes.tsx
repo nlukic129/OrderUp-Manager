@@ -1,4 +1,4 @@
-import { createBrowserRouter, Navigate, RouterProvider } from "react-router-dom";
+import { BrowserRouter, createBrowserRouter, Navigate, RouterProvider } from "react-router-dom";
 
 import LoginPage from "../pages/LoginPage";
 import NotFoundPage from "../pages/NotFoundPage";
@@ -48,7 +48,11 @@ const router = createBrowserRouter([
 ]);
 
 const AppRoutes = () => {
-  return <RouterProvider router={router} />;
+  return (
+    <BrowserRouter basename="/">
+      <RouterProvider router={router} />
+    </BrowserRouter>
+  );
 };
 
 export default AppRoutes;
