@@ -48,11 +48,7 @@ const router = createBrowserRouter([
 ]);
 
 const AppRoutes = () => {
-  return (
-    <BrowserRouter basename="/">
-      <RouterProvider router={router} />
-    </BrowserRouter>
-  );
+  return <RouterProvider router={router} />;
 };
 
 export default AppRoutes;
