@@ -34,8 +34,13 @@ const HeaderSection = () => {
   const navigate = useNavigate();
 
   const onLogoutHandler = async () => {
-    await logout();
-    navigate(`/login`, { replace: true });
+    try {
+      await logout();
+      navigate(`/login`, { replace: true });
+    } catch (error) {
+      console.log(error);
+      // TODO: Handle error
+    }
   };
 
   return (

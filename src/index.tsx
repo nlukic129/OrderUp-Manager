@@ -7,9 +7,7 @@ import { StorageProvider } from "./data/StorageContext";
 
 const root = ReactDOM.createRoot(document.getElementById("root") as HTMLElement);
 root.render(
-  <React.StrictMode>
-    <StorageProvider>
-      <AppRoutes />
-    </StorageProvider>
-  </React.StrictMode>
+  <StorageProvider>
+    <AppRoutes />
+  </StorageProvider>
 );

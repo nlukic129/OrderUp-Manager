@@ -1,5 +1,4 @@
 import { useEffect, useRef, useState } from "react";
-
 import passwordEye from "../assets/images/password-eye.png";
 import passwordEyeShow from "../assets/images/password-eye-show.png";
 
@@ -8,13 +7,24 @@ interface IInputProps {
   placeholder: string;
   type: string;
   onChangeInput: (value: string) => void;
+  value: string;
   required?: boolean;
   isDisabled?: boolean;
   checkValidity?: (value: string) => boolean;
   onChangeValidity?: (value: boolean) => void;
 }
 
-const Input = ({ label, placeholder, type, required = false, checkValidity, onChangeValidity, onChangeInput, isDisabled = false }: IInputProps) => {
+const Input = ({
+  label,
+  placeholder,
+  type,
+  value,
+  required = false,
+  checkValidity,
+  onChangeValidity,
+  onChangeInput,
+  isDisabled = false,
+}: IInputProps) => {
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
   const [inputType, setInputType] = useState(type);
   const [isInputValid, setIsInputValid] = useState(required ? false : true);
@@ -32,7 +42,6 @@ const Input = ({ label, placeholder, type, required = false, checkValidity, onCh
   const handleBlur = () => {
     if (required && inputRef.current) {
       const inputValue = inputRef.current.value.trim();
-
       if (inputValue && isInputValid) {
         inputRef.current.classList.remove("error-input");
       } else {
@@ -65,12 +74,13 @@ const Input = ({ label, placeholder, type, required = false, checkValidity, onCh
   );
 
   return (
-    <div>
+    <>
       <label className="text-typography font-global text-lg">{label}</label>
       <div className="relative">
         <input
           ref={inputRef}
           type={inputType}
+          value={value}
           className="input-style font-global"
           placeholder={placeholder}
           onBlur={handleBlur}
@@ -81,7 +91,7 @@ const Input = ({ label, placeholder, type, required = false, checkValidity, onCh
         />
         {passwordToggleIcon}
       </div>
-    </div>
+    </>
   );
 };
 

@@ -26,6 +26,7 @@ const LoginPage = () => {
     required: true,
     checkValidity: checkEmail,
     onChangeValidity: setIsEmailValid,
+    value: email,
   };
   const passwordInputConfig = {
     label: "Password",
@@ -36,12 +37,17 @@ const LoginPage = () => {
     isDisabled: isLoading,
     checkValidity: checkPassword,
     onChangeValidity: setIsPasswordValid,
+    value: password,
   };
 
   const loginHandler = async () => {
     try {
       setLoginError("");
       await login(email, password);
+      setPassword("");
+      setEmail("");
+      setIsPasswordValid(false);
+      setIsEmailValid(false);
       navigate(`/`, { replace: true });
     } catch (error: any) {
       setLoginError(error.message);

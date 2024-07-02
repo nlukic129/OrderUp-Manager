@@ -5,6 +5,7 @@ import { apiAddress } from "config";
 import { checkAuth, setAuth } from "utils/auth";
 import { IHospitalityVenue } from "../types/venueType";
 import { removeSelectedVenueLS } from "utils/hospitalityVenue";
+import { createError } from "utils/createError";
 
 interface IStorageProviderProps {
   children: React.ReactNode;
@@ -23,8 +24,11 @@ interface IStorageContext {
   userData: IUser;
   selectedVenue?: IHospitalityVenue;
   isLoading: boolean;
+  isScreenLoading: boolean;
   login: (email: string, password: string) => Promise<void>;
   logout: () => Promise<void>;
+  addMessage: (messageText: string) => Promise<void>;
+  deleteMessage: (messageId: string) => Promise<void>;
   setSelectedVenue: (venue: IHospitalityVenue) => void;
 }
 
@@ -34,8 +38,11 @@ const initialState: IStorageContext = {
   userData: { email: "", firstName: "", lastName: "", role: "MANAGER" },
   selectedVenue: undefined,
   isLoading: false,
+  isScreenLoading: false,
   login: async (email: string, password: string) => {},
   logout: async () => {},
+  addMessage: async (messageText: string) => {},
+  deleteMessage: async (messageId: string) => {},
   setSelectedVenue: (venue: IHospitalityVenue) => {},
 };
 
@@ -47,6 +54,7 @@ const StorageProvider = ({ children }: IStorageProviderProps) => {
   const [hospitalityVenues, setHospitalityVenues] = useState([]);
   const [selectedVenue, setSelectedVenue] = useState<IHospitalityVenue>();
   const [isLoading, setIsLoading] = useState(false);
+  const [isScreenLoading, setIsScreenLoading] = useState(false);
 
   useEffect(() => {
     if (isAuthenticated) {
@@ -73,54 +81,112 @@ const StorageProvider = ({ children }: IStorageProviderProps) => {
       setIsLoading(false);
       setAuthentication(true);
       setUserData(response.data);
-    } catch (e: any) {
-      const error = new Error();
+    } catch (error) {
       setIsLoading(false);
-
-      if (e.response) {
-        error.message = e.response.data.errors[0].msg;
-      } else if (e.request) {
-        error.message = "Network Error";
-      } else {
-        error.message = "Error was occurred!";
-      }
-
-      throw error;
+      throw createError(error);
     }
   };
 
   const getVenues = async () => {
     try {
-      setIsLoading(true);
+      setIsScreenLoading(true);
       const response = await axios.get(`${apiAddress}/hospitality-venue/all`, {
         withCredentials: true,
       });
 
-      setIsLoading(false);
+      setIsScreenLoading(false);
       setHospitalityVenues(response.data);
     } catch (error) {
-      setIsLoading(false);
-      console.error("There was an error!", error);
+      setIsScreenLoading(false);
+      throw createError(error);
     }
   };
 
   const logout = async () => {
     try {
-      setIsLoading(true);
+      setIsScreenLoading(true);
       await axios.post(`${apiAddress}/auth/sign-out`, {}, { withCredentials: true });
       setAuthentication(false);
       setUserData(initialState.userData);
       setHospitalityVenues([]);
       removeSelectedVenueLS();
+      setIsScreenLoading(false);
+    } catch (error) {
+      setIsScreenLoading(false);
+      throw createError(error);
+    }
+  };
+
+  const addMessage = async (messageText: string) => {
+    try {
+      const tables = selectedVenue!.tables.map((table) => table.id);
+      setIsLoading(true);
+      const response = await axios.post(
+        `${apiAddress}/messages/add`,
+        { message: messageText, hospitalityVenueId: selectedVenue?.id, tables, isPriority: false },
+        {
+          headers: { "Content-Type": "application/json" },
+          withCredentials: true,
+        }
+      );
+      const newMessage = response.data.data;
+
+      setSelectedVenue((prev) => {
+        if (prev) {
+          return {
+            ...prev,
+            messages: [...prev.messages, { message: newMessage.message, id: newMessage.id }],
+          };
+        }
+        return prev;
+      });
+
       setIsLoading(false);
     } catch (error) {
       setIsLoading(false);
-      console.error("There was an error!", error);
+      throw createError(error);
+    }
+  };
+
+  const deleteMessage = async (messageId: string) => {
+    try {
+      setIsScreenLoading(true);
+      await axios.delete(`${apiAddress}/messages/${messageId}`, {
+        data: { hospitalityVenueId: selectedVenue?.id },
+        withCredentials: true,
+      });
+      setSelectedVenue((prev) => {
+        if (prev) {
+          return {
+            ...prev,
+            messages: prev.messages.filter((message) => message.id !== messageId),
+          };
+        }
+        return prev;
+      });
+      setIsScreenLoading(false);
+    } catch (error) {
+      setIsScreenLoading(false);
+      throw createError(error);
     }
   };
 
   return (
-    <StorageContext.Provider value={{ isAuthenticated, hospitalityVenues, userData, selectedVenue, isLoading, login, logout, setSelectedVenue }}>
+    <StorageContext.Provider
+      value={{
+        isAuthenticated,
+        hospitalityVenues,
+        userData,
+        selectedVenue,
+        isLoading,
+        isScreenLoading,
+        login,
+        logout,
+        setSelectedVenue,
+        addMessage,
+        deleteMessage,
+      }}
+    >
       {children}
     </StorageContext.Provider>
   );

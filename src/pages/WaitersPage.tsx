@@ -17,21 +17,6 @@ const WaitersPage = () => {
     return selectedVenue.users;
   }, [selectedVenue]);
 
-  const containerVariants = {
-    hidden: { opacity: 1 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.04,
-        delayChildren: 0,
-      },
-    },
-  };
-  const itemVariants = {
-    hidden: { opacity: 0, y: 20 },
-    visible: { opacity: 1, y: 0 },
-  };
-
   const calculateFeedbacks = (waiter: IUser) => {
     const feedbacks = waiter.feedbacks;
     let total = 0;
@@ -80,3 +65,18 @@ const WaitersPage = () => {
 };
 
 export default WaitersPage;
+
+const containerVariants = {
+  hidden: { opacity: 1 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.03,
+      delayChildren: 0,
+    },
+  },
+};
+const itemVariants = {
+  hidden: { opacity: 0, y: 20 },
+  visible: { opacity: 1, y: 0 },
+};

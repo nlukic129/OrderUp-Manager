@@ -7,7 +7,7 @@ import NavigationSection from "../components/Navigation/NavigationSection";
 import HeaderSection from "components/HeaderSection";
 
 const HomePage = () => {
-  const { hospitalityVenues, isLoading, setSelectedVenue } = useContext(StorageContext);
+  const { hospitalityVenues, isScreenLoading, setSelectedVenue } = useContext(StorageContext);
 
   useEffect(() => {
     const selectedVenueIdLS = getSelectedVenueLS();
@@ -29,19 +29,16 @@ const HomePage = () => {
 
   return (
     <div className="bg-background w-full h-screen overflow-hidden font-global text-typography">
-      {!isLoading ? (
-        <div className="flex h-screen">
-          <NavigationSection />
-          <div className="w-full md:w-9/12 xl:w-10/12 h-screen pr-5 pl-5 md:pr-10 md:pl-10">
-            <HeaderSection />
-            <div className="h-screen pt-4">
-              <Outlet />
-            </div>
+      <div className="flex h-screen">
+        {isScreenLoading && <p>Loading...</p>}
+        <NavigationSection />
+        <div className="w-full md:w-9/12 xl:w-10/12 h-screen pr-5 pl-5 md:pr-10 md:pl-10">
+          <HeaderSection />
+          <div className="h-screen pt-4">
+            <Outlet />
           </div>
         </div>
-      ) : (
-        <p>Loading...</p>
-      )}
+      </div>
     </div>
   );
 };
