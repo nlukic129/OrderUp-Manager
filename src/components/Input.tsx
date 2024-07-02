@@ -9,11 +9,12 @@ interface IInputProps {
   type: string;
   onChangeInput: (value: string) => void;
   required?: boolean;
+  isDisabled?: boolean;
   checkValidity?: (value: string) => boolean;
   onChangeValidity?: (value: boolean) => void;
 }
 
-const Input = ({ label, placeholder, type, required = false, checkValidity, onChangeValidity, onChangeInput }: IInputProps) => {
+const Input = ({ label, placeholder, type, required = false, checkValidity, onChangeValidity, onChangeInput, isDisabled = false }: IInputProps) => {
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
   const [inputType, setInputType] = useState(type);
   const [isInputValid, setIsInputValid] = useState(required ? false : true);
@@ -76,6 +77,7 @@ const Input = ({ label, placeholder, type, required = false, checkValidity, onCh
           onFocus={handleFocus}
           onChange={handleChange}
           required={required}
+          disabled={isDisabled}
         />
         {passwordToggleIcon}
       </div>

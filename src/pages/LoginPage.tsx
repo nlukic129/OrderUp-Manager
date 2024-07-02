@@ -10,10 +10,10 @@ import { checkEmail, checkPassword } from "utils/validators";
 const LoginPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [loginError, setLoginError] = useState("");
   const [isEmailValid, setIsEmailValid] = useState(false);
   const [isPasswordValid, setIsPasswordValid] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
-  const { login } = useContext(StorageContext);
+  const { login, isLoading } = useContext(StorageContext);
 
   const navigate = useNavigate();
 
@@ -21,6 +21,7 @@ const LoginPage = () => {
     label: "Email Address",
     placeholder: "Enter your email address",
     type: "email",
+    isDisabled: isLoading,
     onChangeInput: setEmail,
     required: true,
     checkValidity: checkEmail,
@@ -32,18 +33,18 @@ const LoginPage = () => {
     type: "password",
     onChangeInput: setPassword,
     required: true,
+    isDisabled: isLoading,
     checkValidity: checkPassword,
     onChangeValidity: setIsPasswordValid,
   };
 
   const loginHandler = async () => {
     try {
-      setIsLoading(true);
+      setLoginError("");
       await login(email, password);
-      setIsLoading(false);
       navigate(`/`, { replace: true });
-    } catch (error) {
-      console.log(error);
+    } catch (error: any) {
+      setLoginError(error.message);
     }
   };
 
@@ -60,6 +61,7 @@ const LoginPage = () => {
             <div className="flex flex-col mt-10">
               <Input {...passwordInputConfig} />
             </div>
+            <p className="text-center text-error">{loginError}</p>
             <Button click={loginHandler} isLoading={isLoading} disabled={!isEmailValid || !isPasswordValid}>
               Login
             </Button>
