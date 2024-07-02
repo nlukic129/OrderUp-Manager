@@ -53,7 +53,7 @@ const MessagesPage = () => {
         </Button>
       </div>
       <h1 className="text-3xl mt-5 md:mt-10 mb-10">Messages</h1>
-      <motion.div className="flex flex-wrap max-h-72 overflow-auto" variants={containerVariants} initial="hidden" animate="visible">
+      <motion.div className="flex flex-wrap overflow-auto" variants={containerVariants} initial="hidden" animate="visible">
         {selectedVenue &&
           selectedVenue.messages.map((message, index) => (
             <motion.div key={index} className="item" variants={itemVariants}>

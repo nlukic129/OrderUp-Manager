@@ -28,13 +28,13 @@ const HomePage = () => {
   }, [hospitalityVenues]);
 
   return (
-    <div className="bg-background w-full h-screen overflow-hidden font-global text-typography">
+    <div className="bg-background w-full h-screen overflow-auto md:overflow-hidden font-global text-typography">
       <div className="flex h-screen">
         {isScreenLoading && <p>Loading...</p>}
         <NavigationSection />
-        <div className="w-full md:w-9/12 xl:w-10/12 h-screen pr-5 pl-5 md:pr-10 md:pl-10">
+        <div className="w-full h-screen md:w-9/12 xl:w-10/12 pr-5 pl-5 md:pr-10 md:pl-10">
           <HeaderSection />
-          <div className="h-screen pt-4">
+          <div className="pt-4 h-screen">
             <Outlet />
           </div>
         </div>

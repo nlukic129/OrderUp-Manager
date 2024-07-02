@@ -35,8 +35,13 @@
 }
 
 .elements {
-  max-height: 85%;
   margin-bottom: 10px;
+}
+
+@media (min-width: 640px) {
+  .elements {
+    max-height: 85%;
+  }
 }
 
 .button {
