@@ -14,21 +14,6 @@ const TablesPage = () => {
     return selectedVenue.tables;
   }, [selectedVenue]);
 
-  const containerVariants = {
-    hidden: { opacity: 1 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.04,
-        delayChildren: 0,
-      },
-    },
-  };
-  const itemVariants = {
-    hidden: { opacity: 0, y: 20 },
-    visible: { opacity: 1, y: 0 },
-  };
-
   return (
     <>
       <motion.div className="container overflow-auto elements" variants={containerVariants} initial="hidden" animate="visible">
@@ -52,3 +37,18 @@ const TablesPage = () => {
 };
 
 export default TablesPage;
+
+const containerVariants = {
+  hidden: { opacity: 1 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.04,
+      delayChildren: 0,
+    },
+  },
+};
+const itemVariants = {
+  hidden: { opacity: 0, y: 20 },
+  visible: { opacity: 1, y: 0 },
+};
