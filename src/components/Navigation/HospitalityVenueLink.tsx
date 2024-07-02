@@ -11,6 +11,7 @@ import { setSelectedVenueLS } from "utils/hospitalityVenue";
 
 interface IHospitalityVenueProps {
   venueId: string;
+  toggle?: () => void;
 }
 
 const iconsConfig = {
@@ -48,7 +49,7 @@ const iconsConfig = {
   },
 };
 
-const HospitalityVenueLink = ({ venueId }: IHospitalityVenueProps) => {
+const HospitalityVenueLink = ({ venueId, toggle }: IHospitalityVenueProps) => {
   const { hospitalityVenues, selectedVenue, setSelectedVenue } = useContext(StorageContext);
   const [isActive, setIsActive] = useState(false);
   const [venue, setVenue] = useState<IHospitalityVenue>();
@@ -73,6 +74,8 @@ const HospitalityVenueLink = ({ venueId }: IHospitalityVenueProps) => {
   const selectVenueHandler = () => {
     setSelectedVenue({ ...venue! });
     setSelectedVenueLS(venue!.id);
+    // TODO: Check if toggle is needed
+    // toggle && toggle();
   };
 
   return venue ? (

@@ -5,7 +5,7 @@ import NavigationLink, { tableType } from "./NavigationLink";
 import { StorageContext } from "data/StorageContext";
 import HospitalityVenueLink from "./HospitalityVenueLink";
 
-export const NavigationToggle = ({ isOpen }: any) => {
+export const NavigationToggle = ({ isOpen, toggle }: any) => {
   const { hospitalityVenues } = useContext(StorageContext);
 
   return (
@@ -20,16 +20,16 @@ export const NavigationToggle = ({ isOpen }: any) => {
         className="w-72 overflow-hidden h-50 z-40"
       >
         <div className="border-b border-typography pb-10">
-          <NavigationLink tableType={tableType.tables} />
-          <NavigationLink tableType={tableType.waiters} />
-          <NavigationLink tableType={tableType.menu} />
-          <NavigationLink tableType={tableType.messages} />
+          <NavigationLink tableType={tableType.tables} toggle={toggle} />
+          <NavigationLink tableType={tableType.waiters} toggle={toggle} />
+          <NavigationLink tableType={tableType.menu} toggle={toggle} />
+          <NavigationLink tableType={tableType.messages} toggle={toggle} />
         </div>
 
         <div className="pt-10">
           <p className="text-center mb-7">Bars&Restaurants</p>
           {hospitalityVenues.map((venue, index) => (
-            <HospitalityVenueLink venueId={venue.id} key={index} />
+            <HospitalityVenueLink venueId={venue.id} key={index} toggle={toggle} />
           ))}
         </div>
       </motion.div>

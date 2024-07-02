@@ -12,6 +12,7 @@ import menuActiveIcon from "../../assets/images/menu-active.png";
 
 interface INavigationLinkProps {
   tableType: tableType;
+  toggle?: () => void;
 }
 
 export enum tableType {
@@ -48,9 +49,9 @@ const tablesConfig = {
   },
 };
 
-const NavigationLink = ({ tableType }: INavigationLinkProps) => {
+const NavigationLink = ({ tableType, toggle }: INavigationLinkProps) => {
   return (
-    <div>
+    <div onClick={() => toggle && toggle()}>
       <NavLink to={tablesConfig[tableType].route}>
         {({ isActive }) => (
           <div className="flex items-center mb-3 h-10">
