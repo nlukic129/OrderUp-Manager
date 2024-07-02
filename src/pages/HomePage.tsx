@@ -1,14 +1,13 @@
-import { useContext, useEffect, useState } from "react";
-import { Outlet, useNavigate } from "react-router-dom";
+import { useContext, useEffect } from "react";
+import { Outlet } from "react-router-dom";
 
 import { StorageContext } from "data/StorageContext";
 import { getSelectedVenueLS, setSelectedVenueLS } from "utils/hospitalityVenue";
 import NavigationSection from "../components/Navigation/NavigationSection";
-import burgerMenu from "../assets/images/burger-menu.png";
 import HeaderSection from "components/HeaderSection";
 
 const HomePage = () => {
-  const { hospitalityVenues, setSelectedVenue } = useContext(StorageContext);
+  const { hospitalityVenues, isLoading, setSelectedVenue } = useContext(StorageContext);
 
   useEffect(() => {
     const selectedVenueIdLS = getSelectedVenueLS();
@@ -30,15 +29,19 @@ const HomePage = () => {
 
   return (
     <div className="bg-background w-full h-screen overflow-hidden font-global text-typography">
-      <div className="flex h-screen">
-        <NavigationSection />
-        <div className="w-full md:w-9/12 xl:w-10/12 h-screen pr-5 pl-5 md:pr-10 md:pl-10">
-          <HeaderSection />
-          <div className="h-screen pt-4">
-            <Outlet />
+      {!isLoading ? (
+        <div className="flex h-screen">
+          <NavigationSection />
+          <div className="w-full md:w-9/12 xl:w-10/12 h-screen pr-5 pl-5 md:pr-10 md:pl-10">
+            <HeaderSection />
+            <div className="h-screen pt-4">
+              <Outlet />
+            </div>
           </div>
         </div>
-      </div>
+      ) : (
+        <p>Loading...</p>
+      )}
     </div>
   );
 };
