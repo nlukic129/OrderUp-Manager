@@ -16,7 +16,7 @@ interface IHospitalityVenueProps {
 const iconsConfig = {
   [HospitalityVenueType.RESTAURANT]: {
     icon: restaurant,
-    activeIcon: restaurant,
+    activeIcon: restaurantActive,
   },
   [HospitalityVenueType.BAR]: {
     icon: cafe,

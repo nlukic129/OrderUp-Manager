@@ -30,19 +30,19 @@ const tablesConfig = {
   },
   menu: {
     icon: menuIcon,
-    activeIcon: menuIcon,
+    activeIcon: menuActiveIcon,
     route: "menu",
     text: "Menu",
   },
   waiters: {
     icon: waitersIcon,
-    activeIcon: waitersIcon,
+    activeIcon: waitersActiveIcon,
     route: "waiters",
     text: "Waiters",
   },
   messages: {
     icon: messagesIcon,
-    activeIcon: messagesIcon,
+    activeIcon: messagesActiveIcon,
     route: "messages",
     text: "Messages",
   },
