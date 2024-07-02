@@ -46,14 +46,14 @@ const MessagesPage = () => {
   return (
     <>
       <h1 className="text-3xl">Add a message</h1>
-      <div className="mt-10 md:w-3/4 xl:w-2/4">
+      <div className="mt-5 md:mt-10 md:w-3/4 xl:w-2/4">
         <Input {...messageInputConfig}></Input>
         <Button click={addMessageHandler} isLoading={isLoading} disabled={!isMessageValid}>
           Add message
         </Button>
       </div>
-      <h1 className="text-3xl mt-16 mb-10">Messages</h1>
-      <motion.div className="flex flex-wrap max-h-72 overflow-auto" variants={containerVariants} initial="hidden" animate="visible">
+      <h1 className="text-3xl mt-5 md:mt-10 mb-10">Messages</h1>
+      <motion.div className="flex flex-wrap max-h-78 overflow-auto" variants={containerVariants} initial="hidden" animate="visible">
         {selectedVenue &&
           selectedVenue.messages.map((message, index) => (
             <motion.div key={index} className="item" variants={itemVariants}>
