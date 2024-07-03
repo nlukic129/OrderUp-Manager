@@ -19,6 +19,7 @@ const MessagesPage = () => {
     } catch (e: any) {
       console.log(e);
       // TODO: Handle error
+      // TODO Handle Error, hendlovati error kada korisinik nije ulogovan vratiti ga na login
     }
   };
 
@@ -28,6 +29,7 @@ const MessagesPage = () => {
     } catch (e: any) {
       console.log(e);
       // TODO: Handle error
+      // TODO Handle Error, hendlovati error kada korisinik nije ulogovan vratiti ga na login
     }
   };
 

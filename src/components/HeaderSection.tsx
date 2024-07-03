@@ -19,6 +19,7 @@ const HeaderSection = () => {
     } catch (error) {
       console.log(error);
       // TODO: Handle error
+      // TODO Handle Error, hendlovati error kada korisinik nije ulogovan vratiti ga na login
     }
   };
 
