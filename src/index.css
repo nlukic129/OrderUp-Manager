@@ -92,3 +92,10 @@ input[type="checkbox"]:checked ~ .checkmark:after {
 .checkbox-padding {
   padding-top: 2px;
 }
+
+@media (min-width: 640px) {
+  .add-table-form-wrapper {
+    overflow: auto;
+    height: 75vh;
+  }
+}

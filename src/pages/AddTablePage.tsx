@@ -62,39 +62,41 @@ const AddTablePage = () => {
 
   return (
     <>
-      <div className="flex items-center">
+      <div className="flex items-center mb-5">
         <img src={backIcon} alt="back icon" className="hover:scale-125 cursor-pointer" onClick={backHandler} />
         <h1 className="text-3xl ml-10">Add table</h1>
       </div>
-      <div className="mt-5 md:mt-10 md:w-3/4 xl:w-2/4">
-        <Input {...tableNameInputConfig}></Input>
-      </div>
-      <h1 className="text-3xl mt-16">Menu categories</h1>
-      <div className="flex flex-wrap justify-between mt-5 md:mt-10 md:w-3/4 xl:w-2/4">
-        <CategorySection
-          title="Food"
-          items={foods}
-          selectedIds={foodIds}
-          setSelectedIds={setFoodIds}
-          isAllSelected={allFoodChecked}
-          setIsAllSelected={setAllFoodChecked}
-        />
-        <CategorySection
-          title="Drink"
-          items={drinks}
-          selectedIds={drinkIds}
-          setSelectedIds={setDrinkIds}
-          isAllSelected={allDrinkChecked}
-          setIsAllSelected={setAllDrinkChecked}
-        />
-        <CategorySection
-          title="Other"
-          items={others}
-          selectedIds={otherIds}
-          setSelectedIds={setOtherIds}
-          isAllSelected={allOtherChecked}
-          setIsAllSelected={setAllOtherChecked}
-        />
+      <div className="h-96 add-table-form-wrapper">
+        <div className="mt-5 md:mt-10 md:w-3/4 xl:w-2/4">
+          <Input {...tableNameInputConfig}></Input>
+        </div>
+        <h1 className="text-3xl mt-16">Menu categories</h1>
+        <div className="flex flex-wrap justify-between mt-5 md:mt-10 md:w-3/4 xl:w-2/4">
+          <CategorySection
+            title="Food"
+            items={foods}
+            selectedIds={foodIds}
+            setSelectedIds={setFoodIds}
+            isAllSelected={allFoodChecked}
+            setIsAllSelected={setAllFoodChecked}
+          />
+          <CategorySection
+            title="Drink"
+            items={drinks}
+            selectedIds={drinkIds}
+            setSelectedIds={setDrinkIds}
+            isAllSelected={allDrinkChecked}
+            setIsAllSelected={setAllDrinkChecked}
+          />
+          <CategorySection
+            title="Other"
+            items={others}
+            selectedIds={otherIds}
+            setSelectedIds={setOtherIds}
+            isAllSelected={allOtherChecked}
+            setIsAllSelected={setAllOtherChecked}
+          />
+        </div>
       </div>
     </>
   );
