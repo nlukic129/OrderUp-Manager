@@ -58,7 +58,12 @@ const WaitersPage = () => {
             </div>
           </motion.div>
         ))}
-        <AddItem text="Add waiter" />
+        <AddItem
+          text="Add waiter"
+          click={() => {
+            console.log("add waiter");
+          }}
+        />
       </motion.div>
     </>
   );

@@ -57,3 +57,38 @@
   z-index: 51;
   background: transparent;
 }
+
+input[type="checkbox"] {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.checkmark {
+  @apply absolute top-0 left-0 bg-transparent rounded-full border border-typography w-8 h-8;
+}
+
+input[type="checkbox"]:checked ~ .checkmark {
+  background-color: transparent;
+  border-color: #ffffff;
+}
+
+.checkmark:after {
+  content: "";
+  position: absolute;
+  display: block;
+  top: 5.5px;
+  left: 5.5px;
+  width: 18.5px;
+  height: 18.5px;
+  border-radius: 50%;
+  border: 1px solid #ffffff;
+}
+
+input[type="checkbox"]:checked ~ .checkmark:after {
+  background-color: #f0803c;
+}
+
+.checkbox-padding {
+  padding-top: 2px;
+}

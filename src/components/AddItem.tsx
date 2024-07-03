@@ -3,7 +3,7 @@ import { useState } from "react";
 import addItem from "../assets/images/add-item.png";
 import addItemHover from "../assets/images/add-item-hover.png";
 
-const AddItem = ({ text }: { text: string }) => {
+const AddItem = ({ text, click }: { text: string; click: () => void }) => {
   const [itemImage, setItemImage] = useState(addItem);
 
   return (
@@ -12,6 +12,7 @@ const AddItem = ({ text }: { text: string }) => {
         className="flex items-center cursor-pointer hover:text-primary transition ease-in-out delay-40"
         onMouseEnter={() => setItemImage(addItemHover)}
         onMouseLeave={() => setItemImage(addItem)}
+        onClick={click}
       >
         <img src={itemImage} alt="add item" className="add-item" />
         <p className="ml-10">{text}</p>

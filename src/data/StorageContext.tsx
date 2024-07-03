@@ -6,7 +6,6 @@ import { checkAuth, setAuth } from "utils/auth";
 import { IHospitalityVenue } from "../types/venueType";
 import { removeSelectedVenueLS } from "utils/hospitalityVenue";
 import { createError } from "utils/createError";
-import { useCycle } from "framer-motion";
 
 interface IStorageProviderProps {
   children: React.ReactNode;
@@ -99,7 +98,15 @@ const StorageProvider = ({ children }: IStorageProviderProps) => {
       setHospitalityVenues(response.data);
     } catch (error) {
       setIsScreenLoading(false);
-      throw createError(error);
+      const e = createError(error);
+      if (e.message === "User is logged out.") {
+        setAuthentication(false);
+        setUserData(initialState.userData);
+        setHospitalityVenues([]);
+        removeSelectedVenueLS();
+        return window.location.reload();
+      }
+      console.log(e.message);
     }
   };
 

@@ -1,4 +1,5 @@
 import { useContext, useMemo } from "react";
+import { useNavigate } from "react-router-dom";
 
 import { StorageContext } from "data/StorageContext";
 import AddItem from "../components/AddItem";
@@ -13,6 +14,11 @@ const TablesPage = () => {
     if (!selectedVenue) return [];
     return selectedVenue.tables;
   }, [selectedVenue]);
+  const navigate = useNavigate();
+
+  const addTableHandler = () => {
+    navigate("/add-table", { replace: true });
+  };
 
   return (
     <>
@@ -30,7 +36,7 @@ const TablesPage = () => {
             </div>
           </motion.div>
         ))}
-        <AddItem text="Add a table" />
+        <AddItem text="Add a table" click={addTableHandler} />
       </motion.div>
     </>
   );

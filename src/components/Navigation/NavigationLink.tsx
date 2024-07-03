@@ -27,37 +27,56 @@ const tablesConfig = {
     icon: tablesIcon,
     activeIcon: tablesActiveIcon,
     route: "tables",
+    extraRoutes: ["add-table"],
     text: "Tables",
   },
   menu: {
     icon: menuIcon,
     activeIcon: menuActiveIcon,
     route: "menu",
+    extraRoutes: [],
     text: "Menu",
   },
   waiters: {
     icon: waitersIcon,
     activeIcon: waitersActiveIcon,
     route: "waiters",
+    extraRoutes: [],
     text: "Waiters",
   },
   messages: {
     icon: messagesIcon,
     activeIcon: messagesActiveIcon,
     route: "messages",
+    extraRoutes: [],
     text: "Messages",
   },
 };
 
 const NavigationLink = ({ tableType, toggle }: INavigationLinkProps) => {
+  const generateClassName = () => {
+    return isRouteActive() ? "text-primary ml-6" : "ml-6";
+  };
+
+  const getActiveImage = () => {
+    return isRouteActive() ? tablesConfig[tableType].activeIcon : tablesConfig[tableType].icon;
+  };
+
+  const isRouteActive = () => {
+    const mainRoute = tablesConfig[tableType].route;
+    const extraRoutes = tablesConfig[tableType].extraRoutes || [];
+    const allRoutes = [mainRoute, ...extraRoutes];
+    return allRoutes.some((route) => window.location.pathname.includes(route));
+  };
+
   return (
     <div onClick={() => toggle && toggle()}>
       <NavLink to={tablesConfig[tableType].route}>
-        {({ isActive }) => (
+        {() => (
           <div className="flex items-center mb-3 h-10">
-            {isActive && <img src={activeMarker} alt="active marker" className="h-10 absolute" />}
-            <img src={isActive ? tablesConfig[tableType].activeIcon : tablesConfig[tableType].icon} alt="active icon" className="h-5 ml-10" />
-            <p className={isActive ? "text-primary ml-6" : "ml-6"}>{tablesConfig[tableType].text}</p>
+            {isRouteActive() && <img src={activeMarker} alt="active marker" className="h-10 absolute" />}
+            <img src={getActiveImage()} alt="active icon" className="h-5 ml-10" />
+            <p className={generateClassName()}>{tablesConfig[tableType].text}</p>
           </div>
         )}
       </NavLink>

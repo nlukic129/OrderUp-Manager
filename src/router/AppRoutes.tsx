@@ -1,4 +1,4 @@
-import { BrowserRouter, createBrowserRouter, Navigate, RouterProvider } from "react-router-dom";
+import { createBrowserRouter, Navigate, RouterProvider } from "react-router-dom";
 
 import LoginPage from "../pages/LoginPage";
 import NotFoundPage from "../pages/NotFoundPage";
@@ -8,6 +8,7 @@ import WaitersPage from "../pages/WaitersPage";
 import MenuPage from "../pages/MenuPage";
 import AuthProtectPage, { ProtectType } from "./AuthProtectPage";
 import MessagesPage from "pages/MessagesPage";
+import AddTablePage from "pages/AddTablePage";
 
 const router = createBrowserRouter([
   {
@@ -21,6 +22,10 @@ const router = createBrowserRouter([
       {
         path: "tables",
         element: <TablesPage />,
+      },
+      {
+        path: "add-table",
+        element: <AddTablePage />,
       },
       {
         path: "waiters",
