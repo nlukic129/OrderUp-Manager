@@ -8,6 +8,7 @@ import { ICategory } from "types/venueType";
 import CategorySection from "components/CategorySection";
 
 const AddTablePage = () => {
+  // TODO on reload redirect to tables page
   const { isLoading, selectedVenue } = useContext(StorageContext);
   const [tableName, setTableName] = useState("");
   const [allFoodChecked, setAllFoodChecked] = useState(true);
