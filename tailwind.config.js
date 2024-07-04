@@ -7,6 +7,7 @@ module.exports = {
       colors: {
         background: "#19181F",
         primary: "#F0803C",
+        primaryHover: "#F0803CCC",
         typography: "#FFFFFF",
         supporting: "#9794AA",
         success: "#10B981",
@@ -24,5 +25,18 @@ module.exports = {
       },
     },
   },
-  plugins: [],
+  plugins: [
+    function ({ addUtilities }) {
+      addUtilities({
+        ".no-scrollbar": {
+          /* Firefox */
+          "scrollbar-width": "none",
+          /* Safari and Chrome */
+          "&::-webkit-scrollbar": {
+            display: "none",
+          },
+        },
+      });
+    },
+  ],
 };

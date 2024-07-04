@@ -1,5 +1,5 @@
 import { ICategory } from "types/venueType";
-import CheckBox from "./CheckBox";
+import CheckBox from "./Checkboxes/CheckBox";
 import { motion } from "framer-motion";
 
 interface CategorySectionProps {
@@ -28,13 +28,13 @@ const CategorySection = ({ title, items, selectedIds, isAllSelected, setSelected
   };
 
   return (
-    <motion.div className="mb-7" variants={containerVariants} initial="hidden" animate="visible">
-      <div className="flex mb-7">
-        <p className="bg-primary font-semibold pl-2 pr-2 pt-1 pb-1 text-xl rounded-md mr-7">{title}</p>
+    <motion.div className="mb-5" variants={containerVariants} initial="hidden" animate="visible">
+      <div className="flex mb-5">
+        <p className="bg-primary font-semibold pl-2 pr-2 pt-1 pb-1 text-lg rounded-md mr-2 sm:5">{title}</p>
         <CheckBox label="" id="" isChecked={isAllSelected} check={checkAllHandler} />
       </div>
       {items.map((item, index) => (
-        <motion.div key={index} className="mb-7" variants={itemVariants}>
+        <motion.div key={index} className="mb-5" variants={itemVariants}>
           <CheckBox key={`checkbox-${item.id}`} label={item.name} id={item.id} isChecked={selectedIds.includes(item.id)} check={checkItemHandler} />
         </motion.div>
       ))}

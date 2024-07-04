@@ -22,7 +22,7 @@ const TablesPage = () => {
 
   return (
     <>
-      <motion.div className="container overflow-auto elements" variants={containerVariants} initial="hidden" animate="visible">
+      <motion.div className="container overflow-auto no-scrollbar elements" variants={containerVariants} initial="hidden" animate="visible">
         {tables.map((table, index) => (
           <motion.div key={index} className="item" variants={itemVariants}>
             <div className="bg-supporting bg-opacity-30 hover:bg-opacity-100 trans mb-4 transition ease-in-out delay-40 w-full h-16 flex items-center p-5 justify-between rounded-2xl">

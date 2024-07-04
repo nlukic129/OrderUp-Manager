@@ -27,7 +27,7 @@ export const NavigationToggle = ({ isOpen, toggle }: any) => {
         </div>
 
         <div className="pt-10">
-          <p className="text-center mb-7">Bars&Restaurants</p>
+          <p className="text-center font-semibold mb-7">Bars&Restaurants</p>
           {hospitalityVenues.map((venue, index) => (
             <HospitalityVenueLink venueId={venue.id} key={index} toggle={toggle} />
           ))}

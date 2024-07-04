@@ -24,8 +24,22 @@
   @apply pt-2 pb-2 pl-6 pr-6 rounded-lg hover:outline-none transition ease-in-out delay-100 w-full bg-error bg-opacity-60 hover:bg-opacity-100 font-global font-regular text-typography cursor-pointer;
 }
 
+.button-add-table {
+  @apply pt-2 pb-2 pl-6 pr-6 rounded-lg hover:outline-none transition ease-in-out delay-100 w-full bg-primary bg-opacity-60 hover:bg-opacity-100 font-global font-regular text-typography cursor-pointer;
+}
+.button-add-table-disabled {
+  @apply pt-2 pb-2 pl-6 pr-6 rounded-lg hover:outline-none transition ease-in-out delay-100 w-full bg-supporting bg-opacity-60 font-global font-regular text-typography cursor-not-allowed;
+}
+
 .navbar {
   @apply absolute top-0 left-0 bottom-0 w-72 bg-supporting z-50;
+}
+
+.messageBox {
+  @apply bg-primary mr-5 mb-5 rounded-lg pl-4 pr-3 pt-1 pb-1 flex justify-between cursor-pointer hover:bg-primaryHover border border-typography;
+}
+.messageBoxUnselect {
+  @apply bg-transparent mr-5 mb-5 rounded-lg pl-4 pr-3 pt-1 pb-1 flex justify-between cursor-pointer border border-typography;
 }
 
 .add-item {
@@ -65,7 +79,7 @@ input[type="checkbox"] {
 }
 
 .checkmark {
-  @apply absolute top-0 left-0 bg-transparent rounded-full border border-typography w-8 h-8;
+  @apply absolute top-0 left-0 bg-transparent rounded-full border border-typography w-7 h-7;
 }
 
 input[type="checkbox"]:checked ~ .checkmark {
@@ -77,10 +91,10 @@ input[type="checkbox"]:checked ~ .checkmark {
   content: "";
   position: absolute;
   display: block;
-  top: 5.5px;
-  left: 5.5px;
-  width: 18.5px;
-  height: 18.5px;
+  top: 6px;
+  left: 6px;
+  width: 14px;
+  height: 14px;
   border-radius: 50%;
   border: 1px solid #ffffff;
 }
@@ -96,6 +110,76 @@ input[type="checkbox"]:checked ~ .checkmark:after {
 @media (min-width: 640px) {
   .add-table-form-wrapper {
     overflow: auto;
-    height: 75vh;
+    height: 80vh;
   }
+}
+
+/* Checkboxes */
+/* The container */
+.container-cbx {
+  display: block;
+  position: relative;
+  padding-left: 32px;
+  margin-bottom: 12px;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+/* Hide the browser's default checkbox */
+.container-cbx .input-cbx {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
+
+/* Create a custom checkbox */
+.checkmark-cbx {
+  position: absolute;
+  top: 2.5px;
+  left: 0;
+  height: 22px;
+  width: 22px;
+  border-radius: 5px;
+  background-color: #eeeeee00;
+  border: 1px solid #ffffff;
+}
+
+/* On mouse-over, add a grey background color */
+.container-cbx:hover .input-cbx ~ .checkmark-cbx {
+  background-color: #cccccc2a;
+}
+
+/* When the checkbox is checked, add a blue background */
+.container-cbx .input-cbx:checked ~ .checkmark-cbx {
+  background-color: #f0803c;
+}
+
+/* Create the checkmark-cbx/indicator (hidden when not checked) */
+.checkmark-cbx:after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+
+/* Show the checkmark-cbx when checked */
+.container-cbx .input-cbx:checked ~ .checkmark-cbx:after {
+  display: block;
+}
+
+/* Style the checkmark-cbx/indicator */
+.container-cbx .checkmark-cbx:after {
+  left: 6px;
+  top: 1px;
+  width: 9px;
+  height: 14px;
+  border: solid white;
+  border-width: 0 3px 3px 0;
+  -webkit-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  transform: rotate(45deg);
 }

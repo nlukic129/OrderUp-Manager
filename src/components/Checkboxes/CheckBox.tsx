@@ -7,8 +7,8 @@ interface ICheckBoxProps {
 
 const CheckBox = ({ isChecked, label, id, check }: ICheckBoxProps) => {
   return (
-    <label className="block relative cursor-pointer text-xl select-none mt-1 checkbox-padding">
-      <span className="ml-10 ">{label}</span>
+    <label className="block relative cursor-pointer text-m select-none mt-1 checkbox-padding">
+      <span className="ml-9 ">{label}</span>
       <input
         type="checkbox"
         checked={isChecked}

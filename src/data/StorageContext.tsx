@@ -3,7 +3,7 @@ import axios from "axios";
 
 import { apiAddress } from "config";
 import { checkAuth, setAuth } from "utils/auth";
-import { IHospitalityVenue } from "../types/venueType";
+import { IHospitalityVenue, ITable } from "../types/venueType";
 import { removeSelectedVenueLS } from "utils/hospitalityVenue";
 import { createError } from "utils/createError";
 
@@ -18,6 +18,14 @@ interface IUser {
   role: "MANAGER" | "ADMIN";
 }
 
+interface ITableData {
+  name: string;
+  hospitalityVenueId: string;
+  users: string[];
+  messages: string[];
+  disabledCategories: string[];
+}
+
 interface IStorageContext {
   isAuthenticated: boolean;
   hospitalityVenues: IHospitalityVenue[];
@@ -30,6 +38,7 @@ interface IStorageContext {
   addMessage: (messageText: string) => Promise<void>;
   deleteMessage: (messageId: string) => Promise<void>;
   setSelectedVenue: (venue: IHospitalityVenue) => void;
+  addTable: (data: ITableData) => Promise<void>;
 }
 
 const initialState: IStorageContext = {
@@ -44,6 +53,7 @@ const initialState: IStorageContext = {
   addMessage: async (messageText: string) => {},
   deleteMessage: async (messageId: string) => {},
   setSelectedVenue: (venue: IHospitalityVenue) => {},
+  addTable: async (data: ITableData) => {},
 };
 
 const StorageContext = createContext<IStorageContext>(initialState);
@@ -179,6 +189,43 @@ const StorageProvider = ({ children }: IStorageProviderProps) => {
     }
   };
 
+  const addTable = async ({ name, hospitalityVenueId, users, messages, disabledCategories }: ITableData) => {
+    try {
+      setIsScreenLoading(true);
+      const response = await axios.post(
+        `${apiAddress}/table/add`,
+        {
+          name,
+          hospitalityVenueId,
+          users,
+          messages,
+          disabledCategories,
+        },
+        {
+          headers: { "Content-Type": "application/json" },
+          withCredentials: true,
+        }
+      );
+
+      const newTable: ITable = response.data.data;
+
+      setSelectedVenue((prev) => {
+        if (prev) {
+          return {
+            ...prev,
+            tables: [...prev.tables, newTable],
+          };
+        }
+        return prev;
+      });
+
+      setIsScreenLoading(false);
+    } catch (error) {
+      setIsScreenLoading(false);
+      throw createError(error);
+    }
+  };
+
   return (
     <StorageContext.Provider
       value={{
@@ -193,6 +240,7 @@ const StorageProvider = ({ children }: IStorageProviderProps) => {
         setSelectedVenue,
         addMessage,
         deleteMessage,
+        addTable,
       }}
     >
       {children}

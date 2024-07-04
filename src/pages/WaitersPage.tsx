@@ -32,7 +32,7 @@ const WaitersPage = () => {
 
   return (
     <>
-      <motion.div className="container overflow-auto elements" variants={containerVariants} initial="hidden" animate="visible">
+      <motion.div className="container overflow-auto no-scrollbar elements" variants={containerVariants} initial="hidden" animate="visible">
         {waiters.map((waiter, index) => (
           <motion.div key={index} className="item" variants={itemVariants}>
             <div
