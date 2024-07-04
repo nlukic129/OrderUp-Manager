@@ -119,7 +119,7 @@ input[type="checkbox"]:checked ~ .checkmark:after {
 .container-cbx {
   display: block;
   position: relative;
-  padding-left: 32px;
+  padding-left: 61px;
   margin-bottom: 12px;
   cursor: pointer;
   -webkit-user-select: none;
@@ -182,4 +182,11 @@ input[type="checkbox"]:checked ~ .checkmark:after {
   -webkit-transform: rotate(45deg);
   -ms-transform: rotate(45deg);
   transform: rotate(45deg);
+}
+
+.user-icon-cbx {
+  position: absolute;
+  top: 3px;
+  left: 34px;
+  width: 17px;
 }
