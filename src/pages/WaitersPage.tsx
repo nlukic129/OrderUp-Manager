@@ -7,6 +7,7 @@ import expandItem from "../assets/images/expand-item.png";
 import deleteItem from "../assets/images/delete-item.png";
 import AddItem from "components/AddItem";
 import star from "../assets/images/star.png";
+import { useNavigate } from "react-router-dom";
 
 const WaitersPage = () => {
   const goldWaiter = 4;
@@ -16,6 +17,7 @@ const WaitersPage = () => {
     if (!selectedVenue) return [];
     return selectedVenue.users;
   }, [selectedVenue]);
+  const navigate = useNavigate();
 
   const calculateFeedbacks = (waiter: IUser) => {
     const feedbacks = waiter.feedbacks;
@@ -28,6 +30,10 @@ const WaitersPage = () => {
 
   const calculateIsGoldWaiter = (waiter: IUser) => {
     return waiter.feedbacks.length > minimumFeedbacks && calculateFeedbacks(waiter) > goldWaiter;
+  };
+
+  const addWaiterHandler = () => {
+    navigate("/add-waiter", { replace: true });
   };
 
   return (
@@ -58,12 +64,7 @@ const WaitersPage = () => {
             </div>
           </motion.div>
         ))}
-        <AddItem
-          text="Add waiter"
-          click={() => {
-            console.log("add waiter");
-          }}
-        />
+        <AddItem text="Add waiter" click={addWaiterHandler} />
       </motion.div>
     </>
   );

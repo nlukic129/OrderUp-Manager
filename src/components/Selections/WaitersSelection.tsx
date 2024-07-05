@@ -1,5 +1,5 @@
 import { IUser } from "types/venueType";
-import CheckBoxSupport from "./Checkboxes/CheckBoxSupport";
+import CheckBoxSupport from "../Checkboxes/CheckBoxSupport";
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 

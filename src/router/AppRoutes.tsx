@@ -9,6 +9,7 @@ import MenuPage from "../pages/MenuPage";
 import AuthProtectPage, { ProtectType } from "./AuthProtectPage";
 import MessagesPage from "pages/MessagesPage";
 import AddTablePage from "pages/AddTablePage";
+import AddWaiterPage from "pages/AddWaiterPage";
 
 const router = createBrowserRouter([
   {
@@ -30,6 +31,10 @@ const router = createBrowserRouter([
       {
         path: "waiters",
         element: <WaitersPage />,
+      },
+      {
+        path: "add-waiter",
+        element: <AddWaiterPage />,
       },
       {
         path: "menu",

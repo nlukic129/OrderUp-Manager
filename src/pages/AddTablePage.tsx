@@ -5,9 +5,9 @@ import Input from "components/Input";
 import { StorageContext } from "data/StorageContext";
 import backIcon from "../assets/images/back-icon.png";
 import { ICategory, IMessage, IUser } from "types/venueType";
-import CategorySection from "components/CategorySection";
-import MessageSelection from "components/MessageSelection";
-import WaitersSelection from "components/WaitersSelection";
+import CategorySelection from "components/Selections/CategorySelection";
+import MessageSelection from "components/Selections/MessageSelection";
+import WaitersSelection from "components/Selections/WaitersSelection";
 
 const AddTablePage = () => {
   // TODO on reload redirect to tables page
@@ -115,7 +115,7 @@ const AddTablePage = () => {
         <WaitersSelection waiters={waiters} waitersIds={waitersIds} setWaitersIds={setWaitersIds} />
         <h1 className="text-3xl mt-16">Menu categories</h1>
         <div className="flex flex-wrap justify-between mt-5 md:mt-10 md:w-3/4 xl:w-2/4">
-          <CategorySection
+          <CategorySelection
             title="Food"
             items={foods}
             selectedIds={foodIds}
@@ -123,7 +123,7 @@ const AddTablePage = () => {
             isAllSelected={allFoodChecked}
             setIsAllSelected={setAllFoodChecked}
           />
-          <CategorySection
+          <CategorySelection
             title="Drink"
             items={drinks}
             selectedIds={drinkIds}
@@ -131,7 +131,7 @@ const AddTablePage = () => {
             isAllSelected={allDrinkChecked}
             setIsAllSelected={setAllDrinkChecked}
           />
-          <CategorySection
+          <CategorySelection
             title="Other"
             items={others}
             selectedIds={otherIds}

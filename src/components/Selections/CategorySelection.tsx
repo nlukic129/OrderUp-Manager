@@ -1,8 +1,8 @@
 import { ICategory } from "types/venueType";
-import CheckBox from "./Checkboxes/CheckBox";
+import CheckBox from "../Checkboxes/CheckBox";
 import { motion } from "framer-motion";
 
-interface CategorySectionProps {
+interface CategorySelectionProps {
   title: string;
   items: ICategory[];
   selectedIds: string[];
@@ -11,7 +11,7 @@ interface CategorySectionProps {
   setIsAllSelected: (isAllSelected: boolean) => void;
 }
 
-const CategorySection = ({ title, items, selectedIds, isAllSelected, setSelectedIds, setIsAllSelected }: CategorySectionProps) => {
+const CategorySelection = ({ title, items, selectedIds, isAllSelected, setSelectedIds, setIsAllSelected }: CategorySelectionProps) => {
   const checkAllHandler = () => {
     if (isAllSelected) {
       setSelectedIds([]);
@@ -24,7 +24,7 @@ const CategorySection = ({ title, items, selectedIds, isAllSelected, setSelected
   const checkItemHandler = (id: string) => {
     const newSelectedIds = selectedIds.includes(id) ? selectedIds.filter((selectedId) => selectedId !== id) : [...selectedIds, id];
     setSelectedIds(newSelectedIds);
-    setIsAllSelected(newSelectedIds.length === items.length);
+    setIsAllSelected(!!newSelectedIds.length);
   };
 
   return (
@@ -42,7 +42,7 @@ const CategorySection = ({ title, items, selectedIds, isAllSelected, setSelected
   );
 };
 
-export default CategorySection;
+export default CategorySelection;
 
 const containerVariants = {
   hidden: { opacity: 1 },
