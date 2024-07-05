@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 
 import Input from "components/Input";
 import { StorageContext } from "data/StorageContext";
@@ -49,7 +49,7 @@ const AddTablePage = () => {
     setFoodIds(foods.map((food) => food.id));
     setDrinkIds(drinks.map((drink) => drink.id));
     setOtherIds(others.map((other) => other.id));
-  }, []);
+  }, [selectedVenue]);
 
   const backHandler = () => {
     navigate("/tables", { replace: true });

@@ -1,5 +1,5 @@
 import { useContext, useEffect } from "react";
-import { Outlet } from "react-router-dom";
+import { Outlet, useLocation, useNavigate } from "react-router-dom";
 
 import { StorageContext } from "data/StorageContext";
 import { getSelectedVenueLS, setSelectedVenueLS } from "utils/hospitalityVenue";
@@ -7,7 +7,19 @@ import NavigationSection from "../components/Navigation/NavigationSection";
 import HeaderSection from "components/HeaderSection";
 
 const HomePage = () => {
-  const { hospitalityVenues, isScreenLoading, setSelectedVenue } = useContext(StorageContext);
+  const { hospitalityVenues, isScreenLoading, setSelectedVenue, selectedVenue } = useContext(StorageContext);
+  const location = useLocation();
+  const navigation = useNavigate();
+
+  useEffect(() => {
+    if (location.pathname === "/add-table") {
+      navigation("/tables", { replace: true });
+    }
+
+    if (location.pathname === "/add-waiter") {
+      navigation("/waiters", { replace: true });
+    }
+  }, [selectedVenue]);
 
   useEffect(() => {
     const selectedVenueIdLS = getSelectedVenueLS();

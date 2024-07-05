@@ -41,7 +41,7 @@ const tablesConfig = {
     icon: waitersIcon,
     activeIcon: waitersActiveIcon,
     route: "waiters",
-    extraRoutes: [],
+    extraRoutes: ["add-waiter"],
     text: "Waiters",
   },
   messages: {
