@@ -9,6 +9,8 @@ import TableSelection from "components/Selections/TableSelection";
 const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/;
 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
+const firstLastNameRegex = /^[a-zA-Z]+$/;
+
 const AddWaiterPage = () => {
   const { isLoading, selectedVenue, addWaiter } = useContext(StorageContext);
   const [firstName, setFirstName] = useState("");
@@ -49,7 +51,7 @@ const AddWaiterPage = () => {
     onChangeInput: setFirstName,
     required: true,
     isDisabled: isLoading,
-    checkValidity: (value: string) => value.length > 0,
+    checkValidity: (value: string) => firstLastNameRegex.test(value),
     onChangeValidity: setIsFirstNameValid,
     value: firstName,
   };
@@ -60,7 +62,7 @@ const AddWaiterPage = () => {
     onChangeInput: setLastName,
     required: true,
     isDisabled: isLoading,
-    checkValidity: (value: string) => value.length > 0,
+    checkValidity: (value: string) => firstLastNameRegex.test(value),
     onChangeValidity: setIsLastNameValid,
     value: lastName,
   };
