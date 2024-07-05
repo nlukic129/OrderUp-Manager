@@ -5,6 +5,7 @@ export interface IMessage {
 
 export interface IUser {
   id: string;
+  email: string;
   firstName: string;
   lastName: string;
   feedbacks: IFeedback[];

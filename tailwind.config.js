@@ -10,6 +10,7 @@ module.exports = {
         primaryHover: "#F0803CCC",
         typography: "#FFFFFF",
         supporting: "#9794AA",
+        supportingHover: "#FFFFFF80",
         success: "#10B981",
         error: "#EF4444",
         gold: "#FAC952",

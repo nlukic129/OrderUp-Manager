@@ -26,6 +26,14 @@ interface ITableData {
   disabledCategories: string[];
 }
 
+interface IWaitedData {
+  email: string;
+  firstName: string;
+  lastName: string;
+  password: string;
+  tables: string[];
+}
+
 interface IStorageContext {
   isAuthenticated: boolean;
   hospitalityVenues: IHospitalityVenue[];
@@ -40,6 +48,7 @@ interface IStorageContext {
   setSelectedVenue: (venue: IHospitalityVenue) => void;
   addTable: (data: ITableData) => Promise<void>;
   deleteTable: (tableId: string) => Promise<void>;
+  addWaiter: (data: IWaitedData) => Promise<void>;
 }
 
 const initialState: IStorageContext = {
@@ -56,6 +65,7 @@ const initialState: IStorageContext = {
   setSelectedVenue: (venue: IHospitalityVenue) => {},
   addTable: async (data: ITableData) => {},
   deleteTable: async (tableId: string) => {},
+  addWaiter: async (data: IWaitedData) => {},
 };
 
 const StorageContext = createContext<IStorageContext>(initialState);
@@ -230,27 +240,57 @@ const StorageProvider = ({ children }: IStorageProviderProps) => {
 
   const deleteTable = async (tableId: string) => {
     setIsLoading(true);
-    axios
-      .delete(`${apiAddress}/table/${tableId}`, {
+    try {
+      await axios.delete(`${apiAddress}/table/${tableId}`, {
         data: { hospitalityVenueId: selectedVenue?.id },
         withCredentials: true,
-      })
-      .then(() => {
-        setSelectedVenue((prev) => {
-          if (prev) {
-            return {
-              ...prev,
-              tables: prev.tables.filter((table) => table.id !== tableId),
-            };
-          }
-          return prev;
-        });
-        setIsLoading(false);
-      })
-      .catch((error) => {
-        setIsLoading(false);
-        throw createError(error);
       });
+
+      setSelectedVenue((prev) => {
+        if (prev) {
+          return {
+            ...prev,
+            tables: prev.tables.filter((table) => table.id !== tableId),
+          };
+        }
+        return prev;
+      });
+      setIsLoading(false);
+    } catch (error) {
+      setIsLoading(false);
+      throw createError(error);
+    }
+  };
+
+  const addWaiter = async ({ email, firstName, lastName, password, tables }: IWaitedData) => {
+    try {
+      setIsLoading(true);
+      const response = await axios.put(
+        `${apiAddress}/auth/signup`,
+        { email, firstName, lastName, password, role: "WAITER", hospitalityVenues: [selectedVenue!.id], tables },
+        {
+          headers: { "Content-Type": "application/json" },
+          withCredentials: true,
+        }
+      );
+
+      const newWaiter = response.data.data;
+
+      setSelectedVenue((prev) => {
+        if (prev) {
+          return {
+            ...prev,
+            users: [...prev.users, newWaiter],
+          };
+        }
+        return prev;
+      });
+
+      setIsLoading(false);
+    } catch (error) {
+      setIsLoading(false);
+      throw createError(error);
+    }
   };
 
   return (
@@ -269,6 +309,7 @@ const StorageProvider = ({ children }: IStorageProviderProps) => {
         deleteMessage,
         addTable,
         deleteTable,
+        addWaiter,
       }}
     >
       {children}

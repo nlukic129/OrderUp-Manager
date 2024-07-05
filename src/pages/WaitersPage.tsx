@@ -52,10 +52,12 @@ const WaitersPage = () => {
                   <p className="">
                     {waiter.firstName} {waiter.lastName}
                   </p>
-                  <div className={`flex items-center ml-1 sm:ml-5 ${calculateIsGoldWaiter(waiter) ? "text-gold" : ""}`}>
-                    <p className="sm:ml-5">{`(${calculateFeedbacks(waiter)}/5)`}</p>
-                    <img src={star} alt="star" className="w-5 mt-0.5 ml-1" />
-                  </div>
+                  {!!waiter.feedbacks.length && (
+                    <div className={`flex items-center ml-1 sm:ml-5 ${calculateIsGoldWaiter(waiter) ? "text-gold" : ""}`}>
+                      <p className="sm:ml-5">{`(${calculateFeedbacks(waiter)}/5)`}</p>
+                      <img src={star} alt="star" className="w-5 mt-0.5 ml-1" />
+                    </div>
+                  )}
                 </div>
               </div>
               <div>

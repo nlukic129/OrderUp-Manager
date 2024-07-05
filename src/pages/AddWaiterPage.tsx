@@ -4,12 +4,13 @@ import { useNavigate } from "react-router-dom";
 import backIcon from "../assets/images/back-icon.png";
 import Input from "components/Input";
 import { StorageContext } from "data/StorageContext";
+import TableSelection from "components/Selections/TableSelection";
 
 const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/;
 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 const AddWaiterPage = () => {
-  const { isLoading, selectedVenue } = useContext(StorageContext);
+  const { isLoading, selectedVenue, addWaiter } = useContext(StorageContext);
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
@@ -20,15 +21,21 @@ const AddWaiterPage = () => {
   const [isEmailValid, setIsEmailValid] = useState(false);
   const [isPasswordValid, setIsPasswordValid] = useState(false);
   const [isConfirmPasswordValid, setIsConfirmPasswordValid] = useState(false);
+  const [selectedTablesIds, setSelectedTablesIds] = useState<string[]>([]);
   const navigate = useNavigate();
 
   const backHandler = () => {
-    navigate("/tables", { replace: true });
+    navigate("/waiters", { replace: true });
   };
 
   const addWaiterHandler = async () => {
     // TODO Popup za uspesno dodat sto, i popup za error gde ce se ispisati error
-    console.log("add waiter");
+    try {
+      await addWaiter({ email, firstName, lastName, password, tables: selectedTablesIds });
+      navigate("/waiters", { replace: true });
+    } catch (e: any) {
+      console.log(e.message);
+    }
   };
 
   const checkIsInputValid = () => {
@@ -70,7 +77,7 @@ const AddWaiterPage = () => {
   };
   const passwordInputConfig = {
     label: "Password",
-    placeholder: "••••••••",
+    placeholder: "",
     type: "password",
     onChangeInput: setPassword,
     required: true,
@@ -81,7 +88,7 @@ const AddWaiterPage = () => {
   };
   const confirmPasswordInputConfig = {
     label: "Confirm Password",
-    placeholder: "••••••••",
+    placeholder: "",
     type: "password",
     onChangeInput: setConfirmPassword,
     required: true,
@@ -93,45 +100,51 @@ const AddWaiterPage = () => {
   // TODO Add "Add button" loader
   return (
     <>
-      <div className="flex items-center justify-between mb-5 flex-wrap">
-        <div className="flex items-center">
-          <img src={backIcon} alt="back icon" className="hover:scale-125 cursor-pointer" onClick={backHandler} />
-          <h1 className="text-3xl ml-10">Add table</h1>
-        </div>
-        <div className="flex items-center w-full mt-10 justify-end sm:w-1/4 sm:mt-0">
-          <button
-            className={checkIsInputValid() ? "button-add-table" : "button-add-table-disabled"}
-            type="button"
-            onClick={addWaiterHandler}
-            disabled={!false}
-          >
-            Add Waiter
-          </button>
-        </div>
-      </div>
-      <div className="h-96 add-table-form-wrapper no-scrollbar w-full">
-        <div className="flex flex-wrap ">
-          <div className="mt-0 w-full md:w-2/5 flex flex-wrap md:justify-between">
-            <div className="w-full md:w-3/6 xl:w-3/6 md:pr-5">
-              <Input {...firstNameInputConfig}></Input>
+      {selectedVenue && (
+        <>
+          <div className="flex items-center justify-between mb-5 flex-wrap">
+            <div className="flex items-center">
+              <img src={backIcon} alt="back icon" className="hover:scale-125 cursor-pointer" onClick={backHandler} />
+              <h1 className="text-3xl ml-10">Add waiter</h1>
             </div>
-            <div className="w-full md:w-3/6 xl:w-3/6 md:pr-5">
-              <Input {...lastNameInputConfig}></Input>
+            <div className="flex items-center w-full mt-10 justify-end sm:w-1/4 sm:mt-0">
+              <button
+                className={checkIsInputValid() ? "button-add-table" : "button-add-table-disabled"}
+                type="button"
+                onClick={addWaiterHandler}
+                disabled={!checkIsInputValid()}
+              >
+                Add Waiter
+              </button>
             </div>
           </div>
-          <div className="w-full md:w-2/5 xl:w-2/5">
-            <Input {...emailInputConfig}></Input>
+          <div className="h-96 add-table-form-wrapper no-scrollbar w-full">
+            <div className="flex flex-wrap ">
+              <div className="mt-0 w-full md:w-2/5 flex flex-wrap md:justify-between">
+                <div className="w-full md:w-3/6 xl:w-3/6 md:pr-5">
+                  <Input {...firstNameInputConfig}></Input>
+                </div>
+                <div className="w-full md:w-3/6 xl:w-3/6 md:pr-5">
+                  <Input {...lastNameInputConfig}></Input>
+                </div>
+              </div>
+              <div className="w-full md:w-2/5 xl:w-2/5">
+                <Input {...emailInputConfig}></Input>
+              </div>
+            </div>
+            <div className="flex flex-wrap md:mt-5 ">
+              <div className="w-full md:w-2/5  md:pr-5">
+                <Input {...passwordInputConfig}></Input>
+              </div>
+              <div className="w-full md:w-2/5 xl:w-2/5">
+                <Input {...confirmPasswordInputConfig}></Input>
+              </div>
+            </div>
+            <h1 className="text-3xl mt-10 mb-10">Add a table to the waiter</h1>
+            <TableSelection tables={selectedVenue.tables} selectedTablesIds={selectedTablesIds} setSelectedTablesIds={setSelectedTablesIds} />
           </div>
-        </div>
-        <div className="flex flex-wrap md:mt-5 ">
-          <div className="w-full md:w-2/5  md:pr-5">
-            <Input {...passwordInputConfig}></Input>
-          </div>
-          <div className="w-full md:w-2/5 xl:w-2/5">
-            <Input {...confirmPasswordInputConfig}></Input>
-          </div>
-        </div>
-      </div>
+        </>
+      )}
     </>
   );
 };
