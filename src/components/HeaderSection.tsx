@@ -22,7 +22,7 @@ const HeaderSection = () => {
       // TODO Handle Error, hendlovati error kada korisinik nije ulogovan vratiti ga na login
     }
   };
-  // TODO Add loader
+  // TODO Add "Add button" loader
 
   return (
     <>

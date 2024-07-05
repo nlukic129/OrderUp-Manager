@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 import Input from "components/Input";
 import { StorageContext } from "data/StorageContext";
@@ -10,7 +10,6 @@ import MessageSelection from "components/Selections/MessageSelection";
 import WaitersSelection from "components/Selections/WaitersSelection";
 
 const AddTablePage = () => {
-  // TODO on reload redirect to tables page
   const { isLoading, selectedVenue, addTable } = useContext(StorageContext);
   const [tableName, setTableName] = useState("");
   const [allFoodChecked, setAllFoodChecked] = useState(true);
@@ -88,7 +87,7 @@ const AddTablePage = () => {
     value: tableName,
   };
 
-  // TODO Add loader
+  // TODO Add "Add button" loader
   return (
     <>
       <div className="flex items-center justify-between mb-5 flex-wrap">
