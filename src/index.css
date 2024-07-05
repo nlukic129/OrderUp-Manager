@@ -36,10 +36,10 @@
 }
 
 .messageBox {
-  @apply bg-primary mr-5 mb-5 rounded-lg pl-4 pr-3 pt-1 pb-1 flex justify-between cursor-pointer hover:bg-primaryHover border border-typography;
+  @apply bg-primary mr-5 mb-5 rounded-lg pl-3 pr-3 pt-1 pb-1 flex justify-between cursor-pointer hover:bg-primaryHover border border-typography;
 }
 .messageBoxUnselect {
-  @apply bg-transparent mr-5 mb-5 rounded-lg pl-4 pr-3 pt-1 pb-1 flex justify-between cursor-pointer border border-typography;
+  @apply bg-transparent mr-5 mb-5 rounded-lg pl-3 pr-3 pt-1 pb-1 flex justify-between cursor-pointer border border-typography;
 }
 
 .add-item {
