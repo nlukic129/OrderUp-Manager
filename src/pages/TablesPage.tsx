@@ -47,7 +47,7 @@ const TablesPage = () => {
         ))}
         {!tables.length && (
           <div className="text-center text-xl mb-5 flex justify-center items-end space-x-3">
-            <img src={infoIcon} alt="info icon" />
+            <img src={infoIcon} alt="info icon" className="w-7" />
             <p>There are currently no tables added</p>
           </div>
         )}
