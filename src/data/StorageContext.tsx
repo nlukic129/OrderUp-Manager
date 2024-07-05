@@ -39,6 +39,7 @@ interface IStorageContext {
   deleteMessage: (messageId: string) => Promise<void>;
   setSelectedVenue: (venue: IHospitalityVenue) => void;
   addTable: (data: ITableData) => Promise<void>;
+  deleteTable: (tableId: string) => Promise<void>;
 }
 
 const initialState: IStorageContext = {
@@ -54,6 +55,7 @@ const initialState: IStorageContext = {
   deleteMessage: async (messageId: string) => {},
   setSelectedVenue: (venue: IHospitalityVenue) => {},
   addTable: async (data: ITableData) => {},
+  deleteTable: async (tableId: string) => {},
 };
 
 const StorageContext = createContext<IStorageContext>(initialState);
@@ -226,6 +228,31 @@ const StorageProvider = ({ children }: IStorageProviderProps) => {
     }
   };
 
+  const deleteTable = async (tableId: string) => {
+    setIsLoading(true);
+    axios
+      .delete(`${apiAddress}/table/${tableId}`, {
+        data: { hospitalityVenueId: selectedVenue?.id },
+        withCredentials: true,
+      })
+      .then(() => {
+        setSelectedVenue((prev) => {
+          if (prev) {
+            return {
+              ...prev,
+              tables: prev.tables.filter((table) => table.id !== tableId),
+            };
+          }
+          return prev;
+        });
+        setIsLoading(false);
+      })
+      .catch((error) => {
+        setIsLoading(false);
+        throw createError(error);
+      });
+  };
+
   return (
     <StorageContext.Provider
       value={{
@@ -241,6 +268,7 @@ const StorageProvider = ({ children }: IStorageProviderProps) => {
         addMessage,
         deleteMessage,
         addTable,
+        deleteTable,
       }}
     >
       {children}

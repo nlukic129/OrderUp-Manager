@@ -72,6 +72,10 @@
   background: transparent;
 }
 
+.margin-auto {
+  margin: auto;
+}
+
 input[type="checkbox"] {
   position: absolute;
   opacity: 0;

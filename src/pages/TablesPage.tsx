@@ -7,9 +7,10 @@ import { ITable } from "types/venueType";
 import { motion } from "framer-motion";
 import expandItem from "../assets/images/expand-item.png";
 import deleteItem from "../assets/images/delete-item.png";
+import infoIcon from "../assets/images/info-icon.png";
 
 const TablesPage = () => {
-  const { selectedVenue } = useContext(StorageContext);
+  const { selectedVenue, deleteTable } = useContext(StorageContext);
   const tables = useMemo<ITable[]>(() => {
     if (!selectedVenue) return [];
     return selectedVenue.tables;
@@ -18,6 +19,14 @@ const TablesPage = () => {
 
   const addTableHandler = () => {
     navigate("/add-table", { replace: true });
+  };
+
+  const deleteTableHandler = async (tableId: string) => {
+    try {
+      await deleteTable(tableId);
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   return (
@@ -31,12 +40,20 @@ const TablesPage = () => {
                 <p className="ml-5 sm:ml-10">{table.name}</p>
               </div>
               <div>
-                <img src={deleteItem} alt="delete item" className="w-14 mt-2 cursor-pointer" />
+                <img src={deleteItem} alt="delete item" className="w-14 mt-2 cursor-pointer" onClick={() => deleteTableHandler(table.id)} />
               </div>
             </div>
           </motion.div>
         ))}
-        <AddItem text="Add a table" click={addTableHandler} />
+        {!tables.length && (
+          <div className="text-center text-xl mb-5 flex justify-center items-end space-x-3">
+            <img src={infoIcon} alt="info icon" />
+            <p>There are currently no tables added</p>
+          </div>
+        )}
+        <div className={!tables.length ? "flex justify-center" : ""}>
+          <AddItem text="Add a table" click={addTableHandler} />
+        </div>
       </motion.div>
     </>
   );
