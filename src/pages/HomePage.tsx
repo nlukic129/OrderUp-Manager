@@ -40,7 +40,7 @@ const HomePage = () => {
   }, [hospitalityVenues]);
 
   return (
-    <div className="bg-background w-full h-screen overflow-auto md:overflow-hidden font-global text-typography">
+    <div className="bg-background w-full h-screen overflow-hidden md:overflow-hidden font-global text-typography">
       <div className="flex h-screen">
         {isScreenLoading && <p>Loading...</p>}
         <NavigationSection />
