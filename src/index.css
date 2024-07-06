@@ -32,7 +32,7 @@
 }
 
 .navbar {
-  @apply absolute top-0 left-0 bottom-0 w-72 bg-navBgColor z-50;
+  @apply absolute top-0 left-0 bottom-0 w-72 bg-navBgColor z-50 h-full;
 }
 
 .messageBox {
@@ -210,5 +210,5 @@ input[type="checkbox"]:checked ~ .checkmark:after {
 }
 
 .navBarHeight {
-  height: 100vh;
+  /* height: 100vh; */
 }
