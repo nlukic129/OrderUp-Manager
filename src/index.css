@@ -210,5 +210,5 @@ input[type="checkbox"]:checked ~ .checkmark:after {
 }
 
 .navBarHeight {
-  height: calc(100vh - 50px);
+  height: 100vh;
 }
