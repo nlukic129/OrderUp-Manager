@@ -32,7 +32,7 @@
 }
 
 .navbar {
-  @apply absolute top-0 left-0 bottom-0 w-72 bg-supporting z-50;
+  @apply absolute top-0 left-0 bottom-0 w-72 bg-navBgColor z-50;
 }
 
 .messageBox {
@@ -79,6 +79,11 @@
   border-radius: 50%;
   z-index: 51;
   background: transparent;
+}
+
+.icon-svg {
+  fill: white !important;
+  stroke: white !important;
 }
 
 .margin-auto {

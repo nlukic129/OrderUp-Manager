@@ -14,6 +14,7 @@ module.exports = {
         success: "#10B981",
         error: "#EF4444",
         gold: "#FAC952",
+        navBgColor: "#36353C",
       },
       fontFamily: {
         global: ["Quicksand"],

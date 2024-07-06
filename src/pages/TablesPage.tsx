@@ -10,7 +10,7 @@ import deleteItem from "../assets/images/delete-item.png";
 import infoIcon from "../assets/images/info-icon.png";
 
 const TablesPage = () => {
-  const { selectedVenue, deleteTable } = useContext(StorageContext);
+  const { selectedVenue, deleteTable, isScreenLoading } = useContext(StorageContext);
   const tables = useMemo<ITable[]>(() => {
     if (!selectedVenue) return [];
     return selectedVenue.tables;
@@ -45,7 +45,8 @@ const TablesPage = () => {
             </div>
           </motion.div>
         ))}
-        {!tables.length && (
+        {isScreenLoading}
+        {!tables.length && !isScreenLoading && (
           <div className="text-center text-xl mb-5 flex justify-center items-end space-x-3">
             <img src={infoIcon} alt="info icon" className="w-7" />
             <p>There are currently no tables added</p>

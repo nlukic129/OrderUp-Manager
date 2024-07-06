@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 
-const Path = (props: any) => <motion.path fill="transparent" strokeWidth="3" stroke="hsl(0, 0%, 18%)" strokeLinecap="round" {...props} />;
+const Path = (props: any) => <motion.path fill="white" strokeWidth="3" stroke="white" strokeLinecap="round" {...props} />;
 
 export const MenuToggle = ({ toggle }: any) => (
   // TODO: Add backdrop for closing menu
