@@ -13,7 +13,7 @@ export const NavigationToggle = ({ isOpen, toggle }: any) => {
       <motion.div
         initial={{ opacity: 0, zIndex: 49, position: "absolute", top: 0, left: 0 }}
         animate={isOpen ? { opacity: 1, left: 0, transition: { duration: 0 } } : { opacity: 0, left: -300, transition: { duration: 0.5 } }}
-        className="w-full h-screen backdrop-blur-sm z-49"
+        className="w-full h-full backdrop-blur-sm z-49 overflow-hidden"
         onClick={toggle}
       ></motion.div>
 
@@ -24,7 +24,7 @@ export const NavigationToggle = ({ isOpen, toggle }: any) => {
             ? { opacity: 1, left: 0, transition: { duration: 0.1, delay: 0.2 } }
             : { opacity: 0, left: -300, transition: { duration: 0.1, delay: 0 } }
         }
-        className="w-72 overflow-hidden h-screen"
+        className="w-72 overflow-hidden navBarHeight"
       >
         <p className="text-center mb-10 font-semibold text-2xl mt-5">OrderUp</p>
         <div className="border-b border-typography pb-10">
