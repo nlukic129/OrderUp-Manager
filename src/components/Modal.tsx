@@ -16,7 +16,7 @@ interface IModalOverlay {
 
 const ModalOverlay = ({ children }: IModalOverlay) => {
   return (
-    <div className="p-7 md:p-16 top-48 bg-background border border-typography rounded-xl absolute left-1/2 transform z-20 -translate-x-1/2 text-typography text-center">
+    <div className="p-7 w-3/4 md:w-2/4 xl:w-2/5 md:p-16 top-48 bg-background border border-typography rounded-xl absolute left-1/2 transform z-20 -translate-x-1/2 text-typography text-center">
       {children}
     </div>
   );
