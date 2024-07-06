@@ -32,7 +32,7 @@
 }
 
 .navbar {
-  @apply absolute top-0 left-0 bottom-0 w-72 bg-navBgColor z-50 h-full;
+  @apply absolute top-0 left-0 bottom-0 w-72 bg-navBgColor z-50 h-screen;
 }
 
 .messageBox {
