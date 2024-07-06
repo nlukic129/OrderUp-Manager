@@ -1,4 +1,4 @@
-import { useContext, useMemo } from "react";
+import { useContext, useMemo, useState } from "react";
 import { motion } from "framer-motion";
 
 import { StorageContext } from "data/StorageContext";
@@ -8,15 +8,17 @@ import deleteItem from "../assets/images/delete-item.png";
 import AddItem from "components/AddItem";
 import star from "../assets/images/star.png";
 import { useNavigate } from "react-router-dom";
+import Modal from "components/Modal";
+
+const goldWaiter = 4;
+const minimumFeedbacks = 5;
 
 const WaitersPage = () => {
-  const goldWaiter = 4;
-  const minimumFeedbacks = 5;
-  const { selectedVenue } = useContext(StorageContext);
-  const waiters = useMemo<IUser[]>(() => {
-    if (!selectedVenue) return [];
-    return selectedVenue.users;
-  }, [selectedVenue]);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const { selectedVenue, deleteWaiter } = useContext(StorageContext);
+  const [waiterIdToDelete, setWaiterIdToDelete] = useState<string>("");
+
+  const waiters = useMemo<IUser[]>(() => (selectedVenue ? selectedVenue.users : []), [selectedVenue]);
   const navigate = useNavigate();
 
   const calculateFeedbacks = (waiter: IUser) => {
@@ -36,8 +38,42 @@ const WaitersPage = () => {
     navigate("/add-waiter", { replace: true });
   };
 
+  const deleteWaiterHandler = async () => {
+    try {
+      setIsModalOpen(false);
+      await deleteWaiter(waiterIdToDelete);
+    } catch (error: any) {
+      console.log(error.message);
+    }
+  };
+
   return (
     <>
+      {isModalOpen && (
+        <Modal closeModal={() => setIsModalOpen(false)}>
+          <>
+            <p>Are you sure you want to remove the waiter?</p>
+            <button
+              className="bg-primary hover:bg-primaryHover mt-5 pt-2 pb-2 pl-6 pr-6 rounded-lg hover:outline-none transition ease-in-out delay-100 w-full bg-opacity-60 hover:bg-opacity-100 font-global font-regular text-typography cursor-pointer"
+              type="button"
+              onClick={() => deleteWaiterHandler()}
+            >
+              Yes
+            </button>
+            <button
+              className="bg-supporting hover:bg-supportingHover pt-2 pb-2 pl-6 pr-6 rounded-lg hover:outline-none transition ease-in-out delay-100 w-full bg-opacity-60 hover:bg-opacity-100 font-global font-regular text-typography cursor-pointer mt-3"
+              type="button"
+              onClick={() => {
+                setIsModalOpen(false);
+                setWaiterIdToDelete("");
+              }}
+            >
+              No
+            </button>
+          </>
+        </Modal>
+      )}
+
       <motion.div className="container overflow-auto no-scrollbar elements" variants={containerVariants} initial="hidden" animate="visible">
         {waiters.map((waiter, index) => (
           <motion.div key={index} className="item" variants={itemVariants}>
@@ -61,7 +97,15 @@ const WaitersPage = () => {
                 </div>
               </div>
               <div>
-                <img src={deleteItem} alt="delete item" className="w-14 mt-2 cursor-pointer" />
+                <img
+                  src={deleteItem}
+                  alt="delete item"
+                  className="w-14 mt-2 cursor-pointer"
+                  onClick={() => {
+                    setIsModalOpen(true);
+                    setWaiterIdToDelete(waiter.id);
+                  }}
+                />
               </div>
             </div>
           </motion.div>

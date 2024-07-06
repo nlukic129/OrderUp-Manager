@@ -49,6 +49,7 @@ interface IStorageContext {
   addTable: (data: ITableData) => Promise<void>;
   deleteTable: (tableId: string) => Promise<void>;
   addWaiter: (data: IWaitedData) => Promise<void>;
+  deleteWaiter: (waiterId: string) => Promise<void>;
 }
 
 const initialState: IStorageContext = {
@@ -66,6 +67,7 @@ const initialState: IStorageContext = {
   addTable: async (data: ITableData) => {},
   deleteTable: async (tableId: string) => {},
   addWaiter: async (data: IWaitedData) => {},
+  deleteWaiter: async (waiterId: string) => {},
 };
 
 const StorageContext = createContext<IStorageContext>(initialState);
@@ -239,7 +241,7 @@ const StorageProvider = ({ children }: IStorageProviderProps) => {
   };
 
   const deleteTable = async (tableId: string) => {
-    setIsLoading(true);
+    setIsScreenLoading(true);
     try {
       await axios.delete(`${apiAddress}/table/${tableId}`, {
         data: { hospitalityVenueId: selectedVenue?.id },
@@ -255,9 +257,9 @@ const StorageProvider = ({ children }: IStorageProviderProps) => {
         }
         return prev;
       });
-      setIsLoading(false);
+      setIsScreenLoading(false);
     } catch (error) {
-      setIsLoading(false);
+      setIsScreenLoading(false);
       throw createError(error);
     }
   };
@@ -293,6 +295,31 @@ const StorageProvider = ({ children }: IStorageProviderProps) => {
     }
   };
 
+  const deleteWaiter = async (waiterId: string) => {
+    try {
+      setIsScreenLoading(true);
+      await axios.delete(`${apiAddress}/user/${waiterId}`, {
+        data: { hospitalityVenueId: selectedVenue?.id },
+        withCredentials: true,
+      });
+
+      setSelectedVenue((prev) => {
+        if (prev) {
+          return {
+            ...prev,
+            users: prev.users.filter((user) => user.id !== waiterId),
+          };
+        }
+        return prev;
+      });
+
+      setIsScreenLoading(false);
+    } catch (error) {
+      setIsScreenLoading(false);
+      throw createError(error);
+    }
+  };
+
   return (
     <StorageContext.Provider
       value={{
@@ -310,6 +337,7 @@ const StorageProvider = ({ children }: IStorageProviderProps) => {
         addTable,
         deleteTable,
         addWaiter,
+        deleteWaiter,
       }}
     >
       {children}
