@@ -75,7 +75,12 @@ const TablesPage = () => {
                       {isLoading ? <LoadSpinner /> : "Save"}
                     </button>
                   )}
-                  <img src={deleteItem} alt="delete item" className="w-14 -mt-3 cursor-pointer" onClick={() => deleteTableHandler(table.id)} />
+                  <img
+                    src={deleteItem}
+                    alt="delete item"
+                    className={`w-14 -mt-3 cursor-pointer ${checkIsExpanded(table.id) ? "hidden sm:block" : ""}`}
+                    onClick={() => deleteTableHandler(table.id)}
+                  />
                 </div>
               </div>
               {checkIsExpanded(table.id) && (
