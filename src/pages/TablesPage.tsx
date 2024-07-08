@@ -1,21 +1,28 @@
-import { useContext, useMemo } from "react";
+import { useContext, useMemo, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { StorageContext } from "data/StorageContext";
 import AddItem from "../components/AddItem";
-import { ITable } from "types/venueType";
 import { motion } from "framer-motion";
 import expandItem from "../assets/images/expand-item.png";
 import deleteItem from "../assets/images/delete-item.png";
 import infoIcon from "../assets/images/info-icon.png";
 
+import EditTable from "components/EditTable";
+import { ITable } from "types/venueType";
+import LoadSpinner from "components/LoadSpinner";
+
 const TablesPage = () => {
-  const { selectedVenue, deleteTable, isScreenLoading } = useContext(StorageContext);
+  const { selectedVenue, deleteTable, isScreenLoading, isLoading } = useContext(StorageContext);
+  const [expandedTable, setExpandedTable] = useState<string>("");
+
   const tables = useMemo<ITable[]>(() => {
     if (!selectedVenue) return [];
     return selectedVenue.tables;
   }, [selectedVenue]);
   const navigate = useNavigate();
+
+  const editRef = useRef();
 
   const addTableHandler = () => {
     navigate("/add-table", { replace: true });
@@ -29,20 +36,54 @@ const TablesPage = () => {
     }
   };
 
+  const expandTable = (id: string) => {
+    setExpandedTable((prev) => (prev === id ? "" : id));
+  };
+
+  const checkIsExpanded = (id: string) => {
+    return expandedTable === id;
+  };
+
+  const changeTableHandler = async () => {
+    await (editRef.current as any)!.saveTable();
+    setExpandedTable("");
+  };
+
   return (
     <>
       <motion.div className="container overflow-auto no-scrollbar elements" variants={containerVariants} initial="hidden" animate="visible">
         {tables.map((table, index) => (
-          <motion.div key={index} className="item" variants={itemVariants}>
-            <div className="bg-supporting bg-opacity-30 hover:bg-opacity-100 trans mb-4 transition ease-in-out delay-40 w-full h-16 flex items-center p-5 justify-between rounded-2xl">
-              <div className="flex items-center cursor-pointer">
-                <img src={expandItem} alt="expand item" className="w-14 mt-2" />
-                <p className="ml-5 sm:ml-10">{table.name}</p>
+          <motion.div key={index} variants={itemVariants} className="tableRowWrapper">
+            <motion.div
+              className={`tableRow ${checkIsExpanded(table.id) ? "" : " hover:bg-opacity-100"}`}
+              variants={tableRow}
+              animate={checkIsExpanded(table.id) ? "expanded" : "collapsed"}
+            >
+              <div className="tableRowInside">
+                <div className="flex cursor-pointer" onClick={() => expandTable(table.id)}>
+                  <img
+                    src={expandItem}
+                    alt="expand item"
+                    className={`w-12 h-12 -mt-2 transform transition-transform duration-300 ${checkIsExpanded(table.id) ? "rotate-180" : ""}`}
+                  />
+                  <p className="ml-5 mt-1 sm:ml-10">{table.name}</p>
+                </div>
+
+                <div className="flex flex-wrap space-x-5">
+                  {checkIsExpanded(table.id) && (
+                    <button className="button-save" type="button" onClick={changeTableHandler}>
+                      {isLoading ? <LoadSpinner /> : "Save"}
+                    </button>
+                  )}
+                  <img src={deleteItem} alt="delete item" className="w-14 -mt-3 cursor-pointer" onClick={() => deleteTableHandler(table.id)} />
+                </div>
               </div>
-              <div>
-                <img src={deleteItem} alt="delete item" className="w-14 mt-2 cursor-pointer" onClick={() => deleteTableHandler(table.id)} />
-              </div>
-            </div>
+              {checkIsExpanded(table.id) && (
+                <div className="w-full h-5/6 pl-10 pr-10 pt-5 overflow-auto no-scrollbar border-t-2">
+                  <EditTable table={table} ref={editRef} />
+                </div>
+              )}
+            </motion.div>
           </motion.div>
         ))}
         {isScreenLoading}
@@ -75,4 +116,20 @@ const containerVariants = {
 const itemVariants = {
   hidden: { opacity: 0, y: 20 },
   visible: { opacity: 1, y: 0 },
+};
+const tableRow = {
+  collapsed: {
+    height: "4.4rem",
+    transition: {
+      duration: 0.3,
+      ease: "easeInOut",
+    },
+  },
+  expanded: {
+    height: "45rem",
+    transition: {
+      duration: 0.3,
+      ease: "easeInOut",
+    },
+  },
 };

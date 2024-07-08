@@ -25,6 +25,13 @@ interface ITableData {
   messages: string[];
   disabledCategories: string[];
 }
+interface IUpdateTableData {
+  id: string;
+  hospitalityVenueId: string;
+  users: string[];
+  messages: string[];
+  disabledCategories: string[];
+}
 
 interface IWaitedData {
   email: string;
@@ -50,6 +57,7 @@ interface IStorageContext {
   deleteTable: (tableId: string) => Promise<void>;
   addWaiter: (data: IWaitedData) => Promise<void>;
   deleteWaiter: (waiterId: string) => Promise<void>;
+  changeTable: (data: IUpdateTableData) => Promise<void>;
 }
 
 const initialState: IStorageContext = {
@@ -68,6 +76,7 @@ const initialState: IStorageContext = {
   deleteTable: async (tableId: string) => {},
   addWaiter: async (data: IWaitedData) => {},
   deleteWaiter: async (waiterId: string) => {},
+  changeTable: async (data: IUpdateTableData) => {},
 };
 
 const StorageContext = createContext<IStorageContext>(initialState);
@@ -320,6 +329,37 @@ const StorageProvider = ({ children }: IStorageProviderProps) => {
     }
   };
 
+  const changeTable = async ({ id, hospitalityVenueId, users, messages, disabledCategories }: IUpdateTableData) => {
+    try {
+      setIsLoading(true);
+      const response = await axios.put(
+        `${apiAddress}/table/${id}`,
+        { hospitalityVenueId, users, messages, disabledCategories },
+        {
+          headers: { "Content-Type": "application/json" },
+          withCredentials: true,
+        }
+      );
+
+      const updatedTable: ITable = response.data.data;
+
+      setSelectedVenue((prev) => {
+        if (prev) {
+          return {
+            ...prev,
+            tables: prev.tables.map((table) => (table.id === id ? updatedTable : table)),
+          };
+        }
+        return prev;
+      });
+
+      setIsLoading(false);
+    } catch (error) {
+      setIsLoading(false);
+      throw createError(error);
+    }
+  };
+
   return (
     <StorageContext.Provider
       value={{
@@ -338,6 +378,7 @@ const StorageProvider = ({ children }: IStorageProviderProps) => {
         deleteTable,
         addWaiter,
         deleteWaiter,
+        changeTable,
       }}
     >
       {children}

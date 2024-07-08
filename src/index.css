@@ -23,6 +23,9 @@
 .button-logout {
   @apply pt-2 pb-2 pl-6 pr-6 rounded-lg hover:outline-none transition ease-in-out delay-100 w-full bg-error bg-opacity-60 hover:bg-opacity-100 font-global font-regular text-typography cursor-pointer;
 }
+.button-save {
+  @apply pl-5 pr-5 rounded-lg hover:outline-none transition ease-in-out delay-100 h-9 -mt-0.5 bg-primary bg-opacity-60 hover:bg-opacity-100 font-global font-regular text-typography cursor-pointer;
+}
 
 .button-add-table {
   @apply pt-2 pb-2 pl-6 pr-6 rounded-lg hover:outline-none transition ease-in-out delay-100 w-full bg-primary bg-opacity-60 hover:bg-opacity-100 font-global font-regular text-typography cursor-pointer;
@@ -49,6 +52,17 @@
 
 .tableBoxUnselected {
   @apply bg-supporting h-12 flex justify-center items-center rounded-xl hover:bg-supportingHover cursor-pointer;
+}
+
+.tableRow {
+  @apply bg-supporting bg-opacity-30 mb-4 p-5 rounded-2xl;
+}
+.tableRow {
+  height: 4.4rem;
+}
+
+.tableRowInside {
+  @apply flex justify-between;
 }
 
 .add-item {

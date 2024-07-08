@@ -83,7 +83,7 @@ const WaitersPage = () => {
               }`}
             >
               <div className="flex items-center cursor-pointer">
-                <img src={expandItem} alt="expand item" className="w-14 mt-2" />
+                <img src={expandItem} alt="expand item" className="w-12 h-12" />
                 <div className="flex ml-2 sm:ml-10 items-center">
                   <p className="">
                     {waiter.firstName} {waiter.lastName}
