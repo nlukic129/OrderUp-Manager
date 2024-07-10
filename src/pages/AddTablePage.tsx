@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import Input from "components/Input";
 import { StorageContext } from "data/StorageContext";
 import backIcon from "../assets/images/back-icon.png";
-import { ICategory, IMessage, IUser } from "types/venueType";
+import { ICategory, IMessage, IWaiter } from "types/venueType";
 import CategorySelection from "components/Selections/CategorySelection";
 import MessageSelection from "components/Selections/MessageSelection";
 import WaitersSelection from "components/Selections/WaitersSelection";
@@ -20,7 +20,7 @@ const AddTablePage = () => {
   const [drinkIds, setDrinkIds] = useState<string[]>([]);
   const [otherIds, setOtherIds] = useState<string[]>([]);
   const [messageIds, setMessageIds] = useState<string[]>([]);
-  const [waiters, setWaiters] = useState<IUser[]>([]);
+  const [waiters, setWaiters] = useState<IWaiter[]>([]);
   const [foods, setFoods] = useState<ICategory[]>([]);
   const [drinks, setDrinks] = useState<ICategory[]>([]);
   const [others, setOthers] = useState<ICategory[]>([]);

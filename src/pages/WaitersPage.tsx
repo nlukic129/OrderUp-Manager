@@ -1,27 +1,31 @@
-import { useContext, useMemo, useState } from "react";
+import { useContext, useMemo, useRef, useState } from "react";
 import { motion } from "framer-motion";
 
 import { StorageContext } from "data/StorageContext";
-import { IUser } from "types/venueType";
+import { IWaiter } from "types/venueType";
 import expandItem from "../assets/images/expand-item.png";
 import deleteItem from "../assets/images/delete-item.png";
 import AddItem from "components/AddItem";
 import star from "../assets/images/star.png";
 import { useNavigate } from "react-router-dom";
 import Modal from "components/Modal";
+import LoadSpinner from "components/LoadSpinner";
+import EditWaiter from "components/EditWaiter";
 
-const goldWaiter = 4;
-const minimumFeedbacks = 5;
+export const goldWaiter = 3;
+export const minimumFeedbacks = 1;
 
 const WaitersPage = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const { selectedVenue, deleteWaiter } = useContext(StorageContext);
+  const { selectedVenue, deleteWaiter, isLoading } = useContext(StorageContext);
   const [waiterIdToDelete, setWaiterIdToDelete] = useState<string>("");
+  const [expandedWaiter, setExpandedWaiter] = useState<string>("");
+  const editRef = useRef();
 
-  const waiters = useMemo<IUser[]>(() => (selectedVenue ? selectedVenue.users : []), [selectedVenue]);
+  const waiters = useMemo<IWaiter[]>(() => (selectedVenue ? selectedVenue.users : []), [selectedVenue]);
   const navigate = useNavigate();
 
-  const calculateFeedbacks = (waiter: IUser) => {
+  const calculateFeedbacks = (waiter: IWaiter) => {
     const feedbacks = waiter.feedbacks;
     let total = 0;
     feedbacks.forEach((feedback) => {
@@ -30,7 +34,7 @@ const WaitersPage = () => {
     return total / feedbacks.length;
   };
 
-  const calculateIsGoldWaiter = (waiter: IUser) => {
+  const calculateIsGoldWaiter = (waiter: IWaiter) => {
     return waiter.feedbacks.length > minimumFeedbacks && calculateFeedbacks(waiter) > goldWaiter;
   };
 
@@ -45,6 +49,19 @@ const WaitersPage = () => {
     } catch (error: any) {
       console.log(error.message);
     }
+  };
+
+  const expandWaiter = (id: string) => {
+    setExpandedWaiter((prev) => (prev === id ? "" : id));
+  };
+
+  const checkIsExpanded = (id: string) => {
+    return expandedWaiter === id;
+  };
+
+  const changeWaiterHandler = async () => {
+    await (editRef.current as any)!.saveWaiter();
+    setExpandedWaiter("");
   };
 
   return (
@@ -76,20 +93,27 @@ const WaitersPage = () => {
 
       <motion.div className="container overflow-auto no-scrollbar elements" variants={containerVariants} initial="hidden" animate="visible">
         {waiters.map((waiter, index) => (
-          <motion.div key={index} className="item" variants={itemVariants}>
-            <div
-              className={`bg-supporting bg-opacity-30 hover:bg-opacity-100 trans mb-4 transition ease-in-out delay-40 w-full h-16 flex items-center p-5 justify-between rounded-2xl ${
+          <motion.div key={index} variants={itemVariants} className={`tableRowWrapper relative `}>
+            <motion.div
+              className={`tableRow ${checkIsExpanded(waiter.id) ? "" : " hover:bg-opacity-100"} ${
                 calculateIsGoldWaiter(waiter) ? "border border-gold" : ""
               }`}
+              variants={tableRow}
+              animate={checkIsExpanded(waiter.id) ? "expanded" : "collapsed"}
             >
-              <div className="flex items-center cursor-pointer">
-                <img src={expandItem} alt="expand item" className="w-12 h-12" />
-                <div className="flex ml-2 sm:ml-10 items-center">
+              <div className="flex items-center cursor-pointer mb-3">
+                <img
+                  src={expandItem}
+                  alt="expand item"
+                  className={`w-12 h-12 -mt-2 transform transition-transform duration-300 ${checkIsExpanded(waiter.id) ? "rotate-180" : ""}`}
+                  onClick={() => expandWaiter(waiter.id)}
+                />
+                <div className="flex ml-2 sm:ml-10 items-center waiter-name-and-rating">
                   <p className="">
                     {waiter.firstName} {waiter.lastName}
                   </p>
                   {!!waiter.feedbacks.length && (
-                    <div className={`flex items-center ml-1 sm:ml-5 ${calculateIsGoldWaiter(waiter) ? "text-gold" : ""}`}>
+                    <div className={`items-center ml-1 sm:ml-5 ${calculateIsGoldWaiter(waiter) ? "text-gold" : ""} hidden sm:flex`}>
                       <p className="sm:ml-5">{`(${calculateFeedbacks(waiter)}/5)`}</p>
                       <img src={star} alt="star" className="w-5 mt-0.5 ml-1" />
                     </div>
@@ -97,17 +121,29 @@ const WaitersPage = () => {
                 </div>
               </div>
               <div>
-                <img
-                  src={deleteItem}
-                  alt="delete item"
-                  className="w-14 mt-2 cursor-pointer"
-                  onClick={() => {
-                    setIsModalOpen(true);
-                    setWaiterIdToDelete(waiter.id);
-                  }}
-                />
+                <div className="absolute top-0 right-5 flex space-x-2">
+                  {checkIsExpanded(waiter.id) && (
+                    <button className="button-save-waiter mt-4" type="button" onClick={changeWaiterHandler}>
+                      {isLoading ? <LoadSpinner /> : "Save"}
+                    </button>
+                  )}
+                  <img
+                    src={deleteItem}
+                    alt="delete item"
+                    className={`w-14 mt-2 cursor-pointer ${checkIsExpanded(waiter.id) ? "hidden sm:block" : ""}`}
+                    onClick={() => {
+                      setIsModalOpen(true);
+                      setWaiterIdToDelete(waiter.id);
+                    }}
+                  />
+                </div>
               </div>
-            </div>
+              {checkIsExpanded(waiter.id) && (
+                <div className="w-full h-5/6 pl-10 pr-10 pt-5 overflow-auto no-scrollbar border-t-2">
+                  <EditWaiter waiter={waiter} ref={editRef} />
+                </div>
+              )}
+            </motion.div>
           </motion.div>
         ))}
         <AddItem text="Add waiter" click={addWaiterHandler} />
@@ -123,7 +159,7 @@ const containerVariants = {
   visible: {
     opacity: 1,
     transition: {
-      staggerChildren: 0.03,
+      staggerChildren: 0.02,
       delayChildren: 0,
     },
   },
@@ -131,4 +167,20 @@ const containerVariants = {
 const itemVariants = {
   hidden: { opacity: 0, y: 20 },
   visible: { opacity: 1, y: 0 },
+};
+const tableRow = {
+  collapsed: {
+    height: "4.4rem",
+    transition: {
+      duration: 0.3,
+      ease: "easeInOut",
+    },
+  },
+  expanded: {
+    height: "45rem",
+    transition: {
+      duration: 0.3,
+      ease: "easeInOut",
+    },
+  },
 };

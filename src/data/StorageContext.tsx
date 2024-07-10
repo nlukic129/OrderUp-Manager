@@ -3,7 +3,7 @@ import axios from "axios";
 
 import { apiAddress } from "config";
 import { checkAuth, setAuth } from "utils/auth";
-import { IHospitalityVenue, ITable } from "../types/venueType";
+import { IHospitalityVenue, ITable, IWaiter } from "../types/venueType";
 import { removeSelectedVenueLS } from "utils/hospitalityVenue";
 import { createError } from "utils/createError";
 
@@ -33,6 +33,11 @@ interface IUpdateTableData {
   disabledCategories: string[];
 }
 
+interface IUpdateWaiterData {
+  tables: string[];
+  waiterId: string;
+}
+
 interface IWaitedData {
   email: string;
   firstName: string;
@@ -58,6 +63,7 @@ interface IStorageContext {
   addWaiter: (data: IWaitedData) => Promise<void>;
   deleteWaiter: (waiterId: string) => Promise<void>;
   changeTable: (data: IUpdateTableData) => Promise<void>;
+  changeWaiterTables: (data: IUpdateWaiterData) => Promise<void>;
 }
 
 const initialState: IStorageContext = {
@@ -77,6 +83,7 @@ const initialState: IStorageContext = {
   addWaiter: async (data: IWaitedData) => {},
   deleteWaiter: async (waiterId: string) => {},
   changeTable: async (data: IUpdateTableData) => {},
+  changeWaiterTables: async (data: IUpdateWaiterData) => {},
 };
 
 const StorageContext = createContext<IStorageContext>(initialState);
@@ -113,6 +120,7 @@ const StorageProvider = ({ children }: IStorageProviderProps) => {
       );
       setIsLoading(false);
       setAuthentication(true);
+      console.log(response.data);
       setUserData(response.data);
     } catch (error) {
       setIsLoading(false);
@@ -348,6 +356,59 @@ const StorageProvider = ({ children }: IStorageProviderProps) => {
           return {
             ...prev,
             tables: prev.tables.map((table) => (table.id === id ? updatedTable : table)),
+            users: prev.users.map((user) => {
+              if (users.includes(user.id)) {
+                const currUserTables = user.tables.map((table) => table.id);
+                if (!currUserTables.includes(id)) {
+                  user.tables.push({ id });
+                }
+              } else {
+                user.tables = user.tables.filter((table) => table.id !== id);
+              }
+              return user;
+            }),
+          };
+        }
+        return prev;
+      });
+
+      setIsLoading(false);
+    } catch (error) {
+      setIsLoading(false);
+      throw createError(error);
+    }
+  };
+
+  const changeWaiterTables = async ({ tables, waiterId }: IUpdateWaiterData) => {
+    try {
+      setIsLoading(true);
+      const response = await axios.post(
+        `${apiAddress}/user/connect-table`,
+        { tables, hospitalityVenueId: selectedVenue!.id, userId: waiterId },
+        {
+          headers: { "Content-Type": "application/json" },
+          withCredentials: true,
+        }
+      );
+
+      const updatedWaiter: IWaiter = response.data.data;
+
+      setSelectedVenue((prev) => {
+        if (prev) {
+          return {
+            ...prev,
+            users: prev.users.map((user) => (user.id === updatedWaiter.id ? updatedWaiter : user)),
+            tables: prev.tables.map((table) => {
+              if (tables.includes(table.id)) {
+                const currTableWaiters = table.users.map((user) => user.id);
+                if (!currTableWaiters.includes(waiterId)) {
+                  table.users.push({ id: waiterId });
+                }
+              } else {
+                table.users = table.users.filter((user) => user.id !== waiterId);
+              }
+              return table;
+            }),
           };
         }
         return prev;
@@ -379,6 +440,7 @@ const StorageProvider = ({ children }: IStorageProviderProps) => {
         addWaiter,
         deleteWaiter,
         changeTable,
+        changeWaiterTables,
       }}
     >
       {children}

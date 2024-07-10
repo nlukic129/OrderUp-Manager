@@ -1,17 +1,17 @@
-import { IUser } from "types/venueType";
+import { IWaiter } from "types/venueType";
 import CheckBoxSupport from "../Checkboxes/CheckBoxSupport";
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 
 interface IWaitersSelectionProps {
-  waiters: IUser[];
+  waiters: IWaiter[];
   waitersIds: string[];
   setWaitersIds: (ids: string[]) => void;
 }
 
 const WaitersSelection = ({ waiters, waitersIds, setWaitersIds }: IWaitersSelectionProps) => {
-  const [oddWaiters, setOddWaiters] = useState<IUser[]>([]);
-  const [evenWaiters, setEvenWaiters] = useState<IUser[]>([]);
+  const [oddWaiters, setOddWaiters] = useState<IWaiter[]>([]);
+  const [evenWaiters, setEvenWaiters] = useState<IWaiter[]>([]);
   useEffect(() => {
     const odd = waiters.filter((_, index) => index % 2 === 0);
     const even = waiters.filter((_, index) => index % 2 !== 0);

@@ -1,8 +1,8 @@
-import { IUser } from "types/venueType";
+import { IWaiter } from "types/venueType";
 import userIcon from "../../assets/images/user-icon.png";
 
 interface ICheckBoxSupportProps {
-  waiter: IUser;
+  waiter: IWaiter;
   isChecked: boolean;
   toggle: (id: string) => void;
 }

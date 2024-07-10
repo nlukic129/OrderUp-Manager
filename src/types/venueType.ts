@@ -3,12 +3,13 @@ export interface IMessage {
   message: string;
 }
 
-export interface IUser {
+export interface IWaiter {
   id: string;
   email: string;
   firstName: string;
   lastName: string;
   feedbacks: IFeedback[];
+  tables: { id: string }[];
 }
 
 export interface IFeedback {
@@ -25,7 +26,7 @@ export interface IDisabledCategory {
 export interface ITable {
   id: string;
   name: string;
-  users: IUser[];
+  users: { id: string }[];
   disabledCategories: IDisabledCategory[];
   messages: IMessage[];
 }
@@ -93,7 +94,7 @@ export interface IHospitalityVenue {
   address: string;
   type: HospitalityVenueType;
   tables: ITable[];
-  users: IUser[];
+  users: IWaiter[];
   categories: ICategory[];
   messages: IMessage[];
 }

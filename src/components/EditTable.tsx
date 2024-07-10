@@ -1,7 +1,7 @@
 import { forwardRef, useContext, useEffect, useImperativeHandle, useState } from "react";
 
 import { StorageContext } from "data/StorageContext";
-import { ICategory, IMessage, ITable, IUser } from "types/venueType";
+import { ICategory, IMessage, ITable, IWaiter } from "types/venueType";
 import CategorySelection from "components/Selections/CategorySelection";
 import MessageSelection from "components/Selections/MessageSelection";
 import WaitersSelection from "components/Selections/WaitersSelection";
@@ -20,7 +20,7 @@ const EditTable = forwardRef(({ table }: EditTableProps, ref) => {
   const [drinkIds, setDrinkIds] = useState<string[]>([]);
   const [otherIds, setOtherIds] = useState<string[]>([]);
   const [messageIds, setMessageIds] = useState<string[]>([]);
-  const [waiters, setWaiters] = useState<IUser[]>([]);
+  const [waiters, setWaiters] = useState<IWaiter[]>([]);
   const [foods, setFoods] = useState<ICategory[]>([]);
   const [drinks, setDrinks] = useState<ICategory[]>([]);
   const [others, setOthers] = useState<ICategory[]>([]);
