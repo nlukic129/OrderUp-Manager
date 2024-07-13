@@ -8,6 +8,7 @@ module.exports = {
         background: "#19181F",
         primary: "#F0803C",
         primaryHover: "#F0803CCC",
+        primaryInactive: "#F0803C99",
         typography: "#FFFFFF",
         supporting: "#9794AA",
         supportingHover: "#FFFFFF80",
@@ -18,6 +19,9 @@ module.exports = {
       },
       fontFamily: {
         global: ["Quicksand"],
+      },
+      rotate: {
+        270: "270deg",
       },
       fontWeight: {
         light: "300",

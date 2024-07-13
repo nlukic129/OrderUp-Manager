@@ -5,6 +5,7 @@ import { IWaiter } from "types/venueType";
 import star from "../assets/images/star.png";
 import TableSelection from "./Selections/TableSelection";
 import { StorageContext } from "data/StorageContext";
+import Feedbacks from "./Feedbacks";
 
 interface IEditWaiterProps {
   waiter: IWaiter;
@@ -39,7 +40,7 @@ const EditWaiter = forwardRef(({ waiter }: IEditWaiterProps, ref) => {
     feedbacks.forEach((feedback) => {
       total += feedback.rating;
     });
-    return total / feedbacks.length;
+    return Number((total / feedbacks.length).toFixed(1));
   };
 
   const calculateIsGoldWaiter = (waiter: IWaiter) => {
@@ -59,6 +60,7 @@ const EditWaiter = forwardRef(({ waiter }: IEditWaiterProps, ref) => {
       <p className="mt-8 text-2xl">Tables</p>
       <TableSelection tables={selectedVenue!.tables} selectedTablesIds={selectedTablesIds} setSelectedTablesIds={setSelectedTablesIds} />
       <p className="mt-8 text-2xl">Feedbacks</p>
+      {!!waiter.feedbacks.length && <Feedbacks feedbacks={waiter.feedbacks} />}
     </>
   );
 });

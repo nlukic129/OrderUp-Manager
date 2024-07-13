@@ -64,6 +64,10 @@
   height: 4.4rem;
 }
 
+.pagination-container {
+  @apply w-10 h-10 flex justify-center items-center cursor-pointer rounded-full font-semibold;
+}
+
 .tableRowInside {
   @apply flex justify-between;
 }

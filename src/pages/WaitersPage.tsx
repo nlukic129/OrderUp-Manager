@@ -12,8 +12,8 @@ import Modal from "components/Modal";
 import LoadSpinner from "components/LoadSpinner";
 import EditWaiter from "components/EditWaiter";
 
-export const goldWaiter = 3;
-export const minimumFeedbacks = 1;
+export const goldWaiter = 3.9;
+export const minimumFeedbacks = 5;
 
 const WaitersPage = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -31,7 +31,7 @@ const WaitersPage = () => {
     feedbacks.forEach((feedback) => {
       total += feedback.rating;
     });
-    return total / feedbacks.length;
+    return Number((total / feedbacks.length).toFixed(1));
   };
 
   const calculateIsGoldWaiter = (waiter: IWaiter) => {
@@ -101,12 +101,11 @@ const WaitersPage = () => {
               variants={tableRow}
               animate={checkIsExpanded(waiter.id) ? "expanded" : "collapsed"}
             >
-              <div className="flex items-center cursor-pointer mb-3">
+              <div className="flex items-center cursor-pointer mb-3" onClick={() => expandWaiter(waiter.id)}>
                 <img
                   src={expandItem}
                   alt="expand item"
                   className={`w-12 h-12 -mt-2 transform transition-transform duration-300 ${checkIsExpanded(waiter.id) ? "rotate-180" : ""}`}
-                  onClick={() => expandWaiter(waiter.id)}
                 />
                 <div className="flex ml-2 sm:ml-10 items-center waiter-name-and-rating">
                   <p className="">
