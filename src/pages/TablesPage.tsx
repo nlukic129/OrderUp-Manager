@@ -93,7 +93,7 @@ const TablesPage = () => {
         ))}
         {isScreenLoading}
         {!tables.length && !isScreenLoading && (
-          <div className="text-center text-xl mb-5 flex justify-center items-end space-x-3">
+          <div className="text-center text-xl mb-5 flex flex-wrap justify-center items-end space-x-3">
             <img src={infoIcon} alt="info icon" className="w-7" />
             <p>There are currently no tables added</p>
           </div>

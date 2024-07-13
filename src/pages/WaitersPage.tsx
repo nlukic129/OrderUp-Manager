@@ -176,7 +176,7 @@ const tableRow = {
     },
   },
   expanded: {
-    height: "45rem",
+    height: "55rem",
     transition: {
       duration: 0.3,
       ease: "easeInOut",

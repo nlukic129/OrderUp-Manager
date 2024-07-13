@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import expandItem from "../assets/images/expand-item.png";
+import expandItem from "../../assets/images/expand-item.png";
 
 interface IFeedbackPagingProps {
   currentPage: number;
@@ -133,12 +133,12 @@ const FeedbackPaging = ({ currentPage, lastPage, setCurrentPage }: IFeedbackPagi
     showLastPage,
     showCurrentPage,
   }: IGeneratePagingConfig) => {
-    const dotsPrint = <div className={`pagination-container bg-primaryInactive`}>...</div>;
+    const dotsPrint = <div className={`pagination-container hidden sm:flex bg-primaryInactive`}>...</div>;
     const firstPagePrint = (
       <div
         onClick={() => setCurrentPage(firstPage)}
-        className={`pagination-container ${currentPage !== firstPage ? "hidden sm:flex" : ""} ${
-          checkIsPageActivate(firstPage) ? "bg-primary" : "bg-primaryInactive"
+        className={`pagination-container ${currentPage !== firstPage ? "hidden sm:flex " : ""} ${
+          checkIsPageActivate(firstPage) ? "bg-primary flex" : "bg-primaryInactive flex"
         }`}
       >
         <p>{firstPage}</p>
@@ -148,18 +148,20 @@ const FeedbackPaging = ({ currentPage, lastPage, setCurrentPage }: IFeedbackPagi
       <div
         onClick={() => setCurrentPage(secondPage)}
         className={`pagination-container ${currentPage !== secondPage ? "hidden sm:flex" : ""} ${
-          checkIsPageActivate(secondPage) ? "bg-primary" : "bg-primaryInactive"
+          checkIsPageActivate(secondPage) ? "bg-primary flex" : "bg-primaryInactive flex"
         }`}
       >
         {secondPage}
       </div>
     );
-    const currentPagePrint = <div className={`pagination-container bg-primary ${!isCurrentPageActive() ? "hidden sm:flex" : ""}`}>{currentPage}</div>;
+    const currentPagePrint = (
+      <div className={`pagination-container flex bg-primary ${!isCurrentPageActive() ? "hidden sm:flex" : ""}`}>{currentPage}</div>
+    );
     const lastButOnePagePrint = (
       <div
         onClick={() => setCurrentPage(lastButOnePage)}
         className={`pagination-container ${currentPage !== lastButOnePage ? "hidden sm:flex" : ""} ${
-          checkIsPageActivate(lastButOnePage) ? "bg-primary" : "bg-primaryInactive"
+          checkIsPageActivate(lastButOnePage) ? "bg-primary flex" : "bg-primaryInactive flex"
         }`}
       >
         {lastButOnePage}
@@ -169,7 +171,7 @@ const FeedbackPaging = ({ currentPage, lastPage, setCurrentPage }: IFeedbackPagi
       <div
         onClick={() => setCurrentPage(lastPage)}
         className={`pagination-container ${currentPage !== lastPage ? "hidden sm:flex" : ""} ${
-          checkIsPageActivate(lastPage) ? "bg-primary" : "bg-primaryInactive"
+          checkIsPageActivate(lastPage) ? "bg-primary flex" : "bg-primaryInactive flex"
         }`}
       >
         {lastPage}
@@ -195,7 +197,7 @@ const FeedbackPaging = ({ currentPage, lastPage, setCurrentPage }: IFeedbackPagi
     );
   };
 
-  return <div className="flex space-x-5 items-center">{printPaging}</div>;
+  return <div className="flex space-x-5 md:w-4/5 items-center justify-center">{printPaging}</div>;
 };
 
 export default FeedbackPaging;

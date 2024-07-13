@@ -5,7 +5,8 @@ import { IWaiter } from "types/venueType";
 import star from "../assets/images/star.png";
 import TableSelection from "./Selections/TableSelection";
 import { StorageContext } from "data/StorageContext";
-import Feedbacks from "./Feedbacks";
+import Feedbacks from "./Feedbacks/Feedbacks";
+import infoIcon from "../assets/images/info-icon.png";
 
 interface IEditWaiterProps {
   waiter: IWaiter;
@@ -60,7 +61,14 @@ const EditWaiter = forwardRef(({ waiter }: IEditWaiterProps, ref) => {
       <p className="mt-8 text-2xl">Tables</p>
       <TableSelection tables={selectedVenue!.tables} selectedTablesIds={selectedTablesIds} setSelectedTablesIds={setSelectedTablesIds} />
       <p className="mt-8 text-2xl">Feedbacks</p>
-      {!!waiter.feedbacks.length && <Feedbacks feedbacks={waiter.feedbacks} />}
+      {!!waiter.feedbacks.length ? (
+        <Feedbacks feedbacks={waiter.feedbacks} />
+      ) : (
+        <div className="text-center text-xl mt-24 flex flex-wrap justify-center items-end space-x-3">
+          <img src={infoIcon} alt="info icon" className="w-7" />
+          <p>There are currently no feedbacks</p>
+        </div>
+      )}
     </>
   );
 });

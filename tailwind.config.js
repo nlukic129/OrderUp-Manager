@@ -23,11 +23,17 @@ module.exports = {
       rotate: {
         270: "270deg",
       },
+      width: {
+        30: "30%",
+      },
       fontWeight: {
         light: "300",
         regular: "400",
         medium: "500",
         semibold: "600",
+      },
+      screens: {
+        xs: "480px",
       },
     },
   },
