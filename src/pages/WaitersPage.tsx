@@ -11,13 +11,14 @@ import { useNavigate } from "react-router-dom";
 import Modal from "components/Modal";
 import LoadSpinner from "components/LoadSpinner";
 import EditWaiter from "components/EditWaiter";
+import infoIcon from "../assets/images/info-icon.png";
 
 export const goldWaiter = 3.9;
 export const minimumFeedbacks = 5;
 
 const WaitersPage = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const { selectedVenue, deleteWaiter, isLoading } = useContext(StorageContext);
+  const { selectedVenue, deleteWaiter, isLoading, isScreenLoading } = useContext(StorageContext);
   const [waiterIdToDelete, setWaiterIdToDelete] = useState<string>("");
   const [expandedWaiter, setExpandedWaiter] = useState<string>("");
   const editRef = useRef();
@@ -92,60 +93,69 @@ const WaitersPage = () => {
       )}
 
       <motion.div className="container overflow-auto no-scrollbar elements" variants={containerVariants} initial="hidden" animate="visible">
-        {waiters.map((waiter, index) => (
-          <motion.div key={index} variants={itemVariants} className={`tableRowWrapper relative `}>
-            <motion.div
-              className={`tableRow ${checkIsExpanded(waiter.id) ? "" : " hover:bg-opacity-100"} ${
-                calculateIsGoldWaiter(waiter) ? "border border-gold" : ""
-              }`}
-              variants={tableRow}
-              animate={checkIsExpanded(waiter.id) ? "expanded" : "collapsed"}
-            >
-              <div className="flex items-center cursor-pointer mb-3" onClick={() => expandWaiter(waiter.id)}>
-                <img
-                  src={expandItem}
-                  alt="expand item"
-                  className={`w-12 h-12 -mt-2 transform transition-transform duration-300 ${checkIsExpanded(waiter.id) ? "rotate-180" : ""}`}
-                />
-                <div className="flex ml-2 sm:ml-10 items-center waiter-name-and-rating">
-                  <p className="">
-                    {waiter.firstName} {waiter.lastName}
-                  </p>
-                  {!!waiter.feedbacks.length && (
-                    <div className={`items-center ml-1 sm:ml-5 ${calculateIsGoldWaiter(waiter) ? "text-gold" : ""} hidden sm:flex`}>
-                      <p className="sm:ml-5">{`(${calculateFeedbacks(waiter)}/5)`}</p>
-                      <img src={star} alt="star" className="w-5 mt-0.5 ml-1" />
-                    </div>
-                  )}
-                </div>
-              </div>
-              <div>
-                <div className="absolute top-0 right-5 flex space-x-2">
-                  {checkIsExpanded(waiter.id) && (
-                    <button className="button-save-waiter mt-4" type="button" onClick={changeWaiterHandler}>
-                      {isLoading ? <LoadSpinner /> : "Save"}
-                    </button>
-                  )}
+        {!!waiters.length &&
+          waiters.map((waiter, index) => (
+            <motion.div key={index} variants={itemVariants} className={`tableRowWrapper relative `}>
+              <motion.div
+                className={`tableRow ${checkIsExpanded(waiter.id) ? "" : " hover:bg-opacity-100"} ${
+                  calculateIsGoldWaiter(waiter) ? "border border-gold" : ""
+                }`}
+                variants={tableRow}
+                animate={checkIsExpanded(waiter.id) ? "expanded" : "collapsed"}
+              >
+                <div className="flex items-center cursor-pointer mb-3" onClick={() => expandWaiter(waiter.id)}>
                   <img
-                    src={deleteItem}
-                    alt="delete item"
-                    className={`w-14 mt-2 cursor-pointer ${checkIsExpanded(waiter.id) ? "hidden sm:block" : ""}`}
-                    onClick={() => {
-                      setIsModalOpen(true);
-                      setWaiterIdToDelete(waiter.id);
-                    }}
+                    src={expandItem}
+                    alt="expand item"
+                    className={`w-12 h-12 -mt-2 transform transition-transform duration-300 ${checkIsExpanded(waiter.id) ? "rotate-180" : ""}`}
                   />
+                  <div className="flex ml-2 sm:ml-10 items-center waiter-name-and-rating">
+                    <p className="">
+                      {waiter.firstName} {waiter.lastName}
+                    </p>
+                    {!!waiter.feedbacks.length && (
+                      <div className={`items-center ml-1 sm:ml-5 ${calculateIsGoldWaiter(waiter) ? "text-gold" : ""} hidden sm:flex`}>
+                        <p className="sm:ml-5">{`(${calculateFeedbacks(waiter)}/5)`}</p>
+                        <img src={star} alt="star" className="w-5 mt-0.5 ml-1" />
+                      </div>
+                    )}
+                  </div>
                 </div>
-              </div>
-              {checkIsExpanded(waiter.id) && (
-                <div className="w-full h-5/6 pl-10 pr-10 pt-5 overflow-auto no-scrollbar border-t-2">
-                  <EditWaiter waiter={waiter} ref={editRef} />
+                <div>
+                  <div className="absolute top-0 right-5 flex space-x-2">
+                    {checkIsExpanded(waiter.id) && (
+                      <button className="button-save-waiter mt-4" type="button" onClick={changeWaiterHandler}>
+                        {isLoading ? <LoadSpinner /> : "Save"}
+                      </button>
+                    )}
+                    <img
+                      src={deleteItem}
+                      alt="delete item"
+                      className={`w-14 mt-2 cursor-pointer ${checkIsExpanded(waiter.id) ? "hidden sm:block" : ""}`}
+                      onClick={() => {
+                        setIsModalOpen(true);
+                        setWaiterIdToDelete(waiter.id);
+                      }}
+                    />
+                  </div>
                 </div>
-              )}
+                {checkIsExpanded(waiter.id) && (
+                  <div className="w-full h-5/6 pl-10 pr-10 pt-5 overflow-auto no-scrollbar border-t-2">
+                    <EditWaiter waiter={waiter} ref={editRef} />
+                  </div>
+                )}
+              </motion.div>
             </motion.div>
-          </motion.div>
-        ))}
-        <AddItem text="Add waiter" click={addWaiterHandler} />
+          ))}
+        {!waiters.length && !isScreenLoading && (
+          <div className="text-center text-xl mb-5 flex flex-wrap justify-center items-end space-x-3">
+            <img src={infoIcon} alt="info icon" className="w-7" />
+            <p>There are currently no waiters added</p>
+          </div>
+        )}
+        <div className={!waiters.length ? "flex justify-center" : ""}>
+          <AddItem text="Add waiter" click={addWaiterHandler} />
+        </div>
       </motion.div>
     </>
   );

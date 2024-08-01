@@ -15,7 +15,7 @@ const AddItem = ({ text, click }: { text: string; click: () => void }) => {
         onClick={click}
       >
         <img src={itemImage} alt="add item" className="add-item" />
-        <p className="ml-10">{text}</p>
+        <p className="ml-8">{text}</p>
       </div>
     </div>
   );
