@@ -46,6 +46,11 @@ interface IWaitedData {
   tables: string[];
 }
 
+interface IUpdateCategoryData {
+  id: string;
+  name: string;
+}
+
 interface IStorageContext {
   isAuthenticated: boolean;
   hospitalityVenues: IHospitalityVenue[];
@@ -64,6 +69,8 @@ interface IStorageContext {
   deleteWaiter: (waiterId: string) => Promise<void>;
   changeTable: (data: IUpdateTableData) => Promise<void>;
   changeWaiterTables: (data: IUpdateWaiterData) => Promise<void>;
+  editCategoryName: (data: IUpdateCategoryData) => Promise<void>;
+  deleteArticleCategory: (categoryId: string) => Promise<void>;
 }
 
 const initialState: IStorageContext = {
@@ -84,6 +91,8 @@ const initialState: IStorageContext = {
   deleteWaiter: async (waiterId: string) => {},
   changeTable: async (data: IUpdateTableData) => {},
   changeWaiterTables: async (data: IUpdateWaiterData) => {},
+  editCategoryName: async (data: IUpdateCategoryData) => {},
+  deleteArticleCategory: async (categoryId: string) => {},
 };
 
 const StorageContext = createContext<IStorageContext>(initialState);
@@ -421,6 +430,62 @@ const StorageProvider = ({ children }: IStorageProviderProps) => {
     }
   };
 
+  const editCategoryName = async ({ id, name }: IUpdateCategoryData) => {
+    try {
+      setIsLoading(true);
+      const response = await axios.put(
+        `${apiAddress}/article-category/update/${id}`,
+        { name, hospitalityVenueId: selectedVenue!.id },
+        {
+          headers: { "Content-Type": "application/json" },
+          withCredentials: true,
+        }
+      );
+
+      const updatedCategory = response.data.data;
+
+      setSelectedVenue((prev) => {
+        if (prev) {
+          return {
+            ...prev,
+            categories: prev.categories.map((category) => (category.id === id ? updatedCategory : category)),
+          };
+        }
+        return prev;
+      });
+
+      setIsLoading(false);
+    } catch (error) {
+      setIsLoading(false);
+      throw createError(error);
+    }
+  };
+
+  const deleteArticleCategory = async (categoryId: string) => {
+    try {
+      setIsLoading(true);
+      await axios.delete(`${apiAddress}/article-category/${categoryId}`, {
+        data: { hospitalityVenueId: selectedVenue?.id },
+        withCredentials: true,
+      });
+
+      setSelectedVenue((prev) => {
+        if (prev) {
+          return {
+            ...prev,
+            categories: prev.categories.filter((category) => category.id !== categoryId),
+          };
+        }
+        return prev;
+      });
+
+      setIsLoading(false);
+    } catch (error) {
+      setIsLoading(false);
+      throw createError(error);
+    }
+  };
+
   return (
     <StorageContext.Provider
       value={{
@@ -441,6 +506,8 @@ const StorageProvider = ({ children }: IStorageProviderProps) => {
         deleteWaiter,
         changeTable,
         changeWaiterTables,
+        editCategoryName,
+        deleteArticleCategory,
       }}
     >
       {children}
